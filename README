@@ -3,8 +3,11 @@ high and low entry points to the solvers' functionalities, for example,
 `GurobiSolve` is a high level function that mimics Mathematica's own
 `LinearProgramming` function's argument signature.
 
+Reached milestones:
+
+- Quadratic programming capabilities
+
 Milestones:
 
 1. Documentation (high and low level functions)
-2. Quadratic programming capabilities
-3. Provide cross platform installation instructions
+2. Provide cross platform installation instructions

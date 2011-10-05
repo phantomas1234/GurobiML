@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       157,          7]
-NotebookDataLength[     16895,        471]
-NotebookOptionsPosition[     16100,        440]
-NotebookOutlinePosition[     16491,        457]
-CellTagsIndexPosition[     16448,        454]
+NotebookDataLength[     21624,        583]
+NotebookOptionsPosition[     20793,        551]
+NotebookOutlinePosition[     21183,        568]
+CellTagsIndexPosition[     21140,        565]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -66,10 +66,21 @@ on how to use LinearProgramming).\>\""}], ";"}]], "Input",
 
 Cell[BoxData[
  RowBox[{
-  RowBox[{"matrix2compressedSparseRow", "::", "usage"}], "=", 
-  "\"\<matrix2compressedSparseRow[matrix] translates matrix into condensed \
-sparse row format (as described in Gurobi documentation).\>\""}]], "Input",
- CellChangeTimes->{{3.512837346172017*^9, 3.512837407588661*^9}}],
+  RowBox[{
+   RowBox[{"matrix2compressedSparseRow", "::", "usage"}], "=", 
+   "\"\<matrix2compressedSparseRow[matrix] translates matrix into condensed \
+sparse row format (as described in Gurobi documentation).\>\""}], 
+  ";"}]], "Input",
+ CellChangeTimes->{{3.512837346172017*^9, 3.512837407588661*^9}, 
+   3.526827015042384*^9}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   RowBox[{"matrix2sparse", "::", "usage"}], "=", 
+   "\"\<matrix2sparse[matrix] returns rowID, colID, Values ...\>\""}], 
+  ";"}]], "Input",
+ CellChangeTimes->{{3.526826973698173*^9, 3.526827013762807*^9}}],
 
 Cell[BoxData[
  RowBox[{
@@ -123,7 +134,33 @@ Cell[BoxData[{
       RowBox[{"{", 
        RowBox[{"cbeg", ",", 
         RowBox[{"cind", "-", "1"}], ",", "cval"}], "}"}]}]}], 
-    "\[IndentingNewLine]", "]"}]}], ";"}], "\n", 
+    "\[IndentingNewLine]", "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"matrix2sparse", "[", 
+   RowBox[{"mat_", "?", "MatrixQ"}], "]"}], ":=", 
+  RowBox[{"Transpose", "[", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"Append", "[", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"#", "[", 
+         RowBox[{"[", "1", "]"}], "]"}], "-", "1"}], ",", 
+       RowBox[{"#", "[", 
+        RowBox[{"[", "2", "]"}], "]"}]}], "]"}], "&"}], "/@", 
+    RowBox[{
+     RowBox[{"ArrayRules", "[", 
+      RowBox[{"SparseArray", "[", "mat", "]"}], "]"}], "[", 
+     RowBox[{"[", 
+      RowBox[{";;", 
+       RowBox[{"-", "2"}]}], "]"}], "]"}]}], "]"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"GurobiSolve", "::", "objerror"}], "=", 
+   "\"\<Objective function `1` is wrongly specified. Needs to be either a \
+list of coefficients (LP/MIP), a matrix representing quadratic terms in \
+compressed sparse row format (QP), or both ({{_?NumberQ..}, \
+_MatrixQ}).\>\""}], ";"}], "\n", 
  RowBox[{
   RowBox[{
    RowBox[{"GurobiSolve", "::", "rhserror"}], "=", 
@@ -147,7 +184,20 @@ Cell[BoxData[{
  RowBox[{
   RowBox[{
    RowBox[{"GurobiSolve", "[", 
-    RowBox[{"c_List", ",", 
+    RowBox[{
+     RowBox[{"c", ":", 
+      RowBox[{"(", 
+       RowBox[{
+        RowBox[{"{", 
+         RowBox[{
+          RowBox[{"_", "?", "NumberQ"}], ".."}], "}"}], "|", 
+        RowBox[{"_", "?", "MatrixQ"}], "|", 
+        RowBox[{"{", 
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{"_", "?", "NumberQ"}], ".."}], "}"}], ",", 
+          RowBox[{"_", "?", "MatrixQ"}]}], "}"}]}], ")"}]}], ",", 
      RowBox[{"m_", "?", "MatrixQ"}], ",", 
      RowBox[{"b", ":", 
       RowBox[{
@@ -403,12 +453,63 @@ Cell[BoxData[{
              RowBox[{"GurobiSolve", "::", "lowlevelmessage"}], ",", "#"}], 
             "]"}], ";", 
            RowBox[{"Abort", "[", "]"}], ";"}]}], "]"}], "&"}], "@", 
-       RowBox[{"GurobiML`GurobiML`GurobiSolveLowLevel", "[", 
-        RowBox[{
-        "c", ",", "lb", ",", "ub", ",", "cbeg", ",", " ", "cind", ",", " ", 
-         RowBox[{"N", "@", "cval"}], ",", "procRhs", ",", "senses", ",", 
-         "procDom"}], "]"}]}]}]}], "\[IndentingNewLine]", "]"}]}], 
-  ";"}]}], "Input",
+       "\[IndentingNewLine]", 
+       RowBox[{"Switch", "[", 
+        RowBox[{"c", ",", "\[IndentingNewLine]", 
+         RowBox[{"_", "?", "MatrixQ"}], ",", "\[IndentingNewLine]", 
+         RowBox[{"GurobiML`GurobiML`GurobiSolveLowLevel", "[", 
+          RowBox[{
+           RowBox[{"Array", "[", 
+            RowBox[{
+             RowBox[{"0", "&"}], ",", 
+             RowBox[{"Length", "[", 
+              RowBox[{"Transpose", "[", "m", "]"}], "]"}]}], "]"}], ",", "lb",
+            ",", "ub", ",", "cbeg", ",", " ", "cind", ",", " ", 
+           RowBox[{"N", "@", "cval"}], ",", "procRhs", ",", "senses", ",", 
+           "procDom", ",", 
+           RowBox[{"Sequence", "@@", 
+            RowBox[{"matrix2sparse", "[", "c", "]"}]}]}], "]"}], ",", 
+         "\[IndentingNewLine]", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"_", "?", "NumberQ"}], ".."}], "}"}], ",", 
+         "\[IndentingNewLine]", 
+         RowBox[{"GurobiML`GurobiML`GurobiSolveLowLevel", "[", 
+          RowBox[{
+          "c", ",", "lb", ",", "ub", ",", "cbeg", ",", " ", "cind", ",", " ", 
+           
+           RowBox[{"N", "@", "cval"}], ",", "procRhs", ",", "senses", ",", 
+           "procDom", ",", 
+           RowBox[{"(*", "qrow", "*)"}], 
+           RowBox[{"{", "}"}], ",", 
+           RowBox[{"(*", "qcol", "*)"}], 
+           RowBox[{"{", "}"}], ",", 
+           RowBox[{"(*", "qval", "*)"}], 
+           RowBox[{"{", "}"}]}], "]"}], ",", "\[IndentingNewLine]", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"{", 
+            RowBox[{
+             RowBox[{"_", "?", "NumberQ"}], ".."}], "}"}], ",", 
+           RowBox[{"_", "?", "MatrixQ"}]}], "}"}], ",", "\[IndentingNewLine]", 
+         RowBox[{"GurobiML`GurobiML`GurobiSolveLowLevel", "[", 
+          RowBox[{
+           RowBox[{"c", "[", 
+            RowBox[{"[", "1", "]"}], "]"}], ",", "lb", ",", "ub", ",", "cbeg",
+            ",", " ", "cind", ",", " ", 
+           RowBox[{"N", "@", "cval"}], ",", "procRhs", ",", "senses", ",", 
+           "procDom", ",", 
+           RowBox[{"Sequence", "@@", 
+            RowBox[{"matrix2sparse", "[", 
+             RowBox[{"c", "[", 
+              RowBox[{"[", "2", "]"}], "]"}], "]"}]}]}], "]"}], ",", 
+         "\[IndentingNewLine]", "_", ",", "\[IndentingNewLine]", 
+         RowBox[{
+          RowBox[{"Message", "[", 
+           RowBox[{
+            RowBox[{"GurobiSolve", "::", "objerror"}], ",", "c"}], "]"}], ";", 
+          RowBox[{"Abort", "[", "]"}], ";"}]}], "\[IndentingNewLine]", 
+        "]"}]}]}]}], "\[IndentingNewLine]", "]"}]}], ";"}]}], "Input",
  InitializationGroup->True,
  CellChangeTimes->{{3.5103265769001827`*^9, 3.510326583017271*^9}, {
    3.510327398738757*^9, 3.510327416976717*^9}, 3.510334539263418*^9, {
@@ -419,7 +520,17 @@ Cell[BoxData[{
    3.512838263381106*^9}, {3.512916333161182*^9, 3.512916342413653*^9}, 
    3.513626092966753*^9, {3.526066196461138*^9, 3.526066198744191*^9}, {
    3.526820419557502*^9, 3.526820420340919*^9}, {3.526820531709552*^9, 
-   3.526820648680649*^9}}],
+   3.526820648680649*^9}, {3.526824129275083*^9, 3.526824252590406*^9}, {
+   3.526824491877348*^9, 3.526824519604299*^9}, {3.526824610271326*^9, 
+   3.526824613246859*^9}, {3.5268248098063183`*^9, 3.526824811914304*^9}, {
+   3.526825135746635*^9, 3.526825154317408*^9}, {3.52682522753992*^9, 
+   3.526825245147334*^9}, {3.526825281651882*^9, 3.526825283196192*^9}, {
+   3.526825315765192*^9, 3.526825370673719*^9}, {3.526825590001598*^9, 
+   3.526825599241778*^9}, {3.526825674795722*^9, 3.5268260266451263`*^9}, {
+   3.526826483295846*^9, 3.52682651333635*^9}, {3.526826806678693*^9, 
+   3.5268269483364067`*^9}, {3.52682706031558*^9, 3.526827062147379*^9}, {
+   3.526827175190967*^9, 3.5268271753254757`*^9}, {3.526827750198985*^9, 
+   3.526827750580496*^9}, {3.526827977963523*^9, 3.526827985026812*^9}}],
 
 Cell[BoxData[
  RowBox[{
@@ -439,8 +550,8 @@ Cell[BoxData[
 }, Open  ]]
 },
 AutoGeneratedPackage->Automatic,
-WindowSize->{1293, 833},
-WindowMargins->{{Automatic, 73}, {Automatic, 131}},
+WindowSize->{1453, 1075},
+WindowMargins->{{Automatic, 88}, {Automatic, 0}},
 FrontEndVersion->"8.0 for Mac OS X x86 (32-bit, 64-bit Kernel) (November 6, \
 2010)",
 StyleDefinitions->"Default.nb"
@@ -462,15 +573,16 @@ Cell[579, 22, 172, 3, 67, "Section",
 Cell[754, 27, 675, 18, 73, "Input"],
 Cell[1432, 47, 329, 7, 27, "Input",
  InitializationGroup->True],
-Cell[1764, 56, 440, 8, 58, "Input"],
-Cell[2207, 66, 305, 5, 27, "Input"],
-Cell[2515, 73, 190, 4, 27, "Input",
+Cell[1764, 56, 440, 8, 43, "Input"],
+Cell[2207, 66, 354, 8, 27, "Input"],
+Cell[2564, 76, 242, 6, 27, "Input"],
+Cell[2809, 84, 190, 4, 27, "Input",
  InitializationGroup->True],
-Cell[2708, 79, 12922, 342, 561, "Input",
+Cell[3002, 90, 17321, 442, 756, "Input",
  InitializationGroup->True],
-Cell[15633, 423, 279, 8, 27, "Input",
+Cell[20326, 534, 279, 8, 27, "Input",
  InitializationGroup->True],
-Cell[15915, 433, 169, 4, 27, "Input",
+Cell[20608, 544, 169, 4, 27, "Input",
  InitializationGroup->True]
 }, Open  ]]
 }

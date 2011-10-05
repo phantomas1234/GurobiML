@@ -31,7 +31,10 @@ BeginPackage["GurobiML`GurobiML`"];
 GurobiSolve::usage="GurobiSolve provides the same function signature as Mathematica's own LinearProgramming function (check Mathematica's Help Center for documentation on how to use LinearProgramming).";
 
 
-matrix2compressedSparseRow::usage="matrix2compressedSparseRow[matrix] translates matrix into condensed sparse row format (as described in Gurobi documentation)."
+matrix2compressedSparseRow::usage="matrix2compressedSparseRow[matrix] translates matrix into condensed sparse row format (as described in Gurobi documentation).";
+
+
+matrix2sparse::usage="matrix2sparse[matrix] returns rowID, colID, Values ...";
 
 
 Begin["`Private`"];
@@ -42,11 +45,13 @@ matrix2compressedSparseRow[mat_?MatrixQ]:=Module[{rind,cind,cval,cbeg},
 cbeg=Prepend[Accumulate[Tally[rind][[All,2]]][[;;-2]],0];
 {cbeg,cind-1,cval}
 ];
+matrix2sparse[mat_?MatrixQ]:=Transpose[Append[#[[1]]-1,#[[2]]]&/@ArrayRules[SparseArray[mat]][[;;-2]]]
+GurobiSolve::objerror="Objective function `1` is wrongly specified. Needs to be either a list of coefficients (LP/MIP), a matrix representing quadratic terms in compressed sparse row format (QP), or both ({{_?NumberQ..}, _MatrixQ}).";
 GurobiSolve::rhserror="Righthand sides `1` are wrongly specified.";
 GurobiSolve::bndserror="Variable bounds `1` are wrongly specified.";
 GurobiSolve::domerror="Problem with domain specification `1`.";
 GurobiSolve::lowlevelmessage="Gurobi interface returned the following status: `1`.";
-GurobiSolve[c_List,m_?MatrixQ,b:({_?NumberQ..}|{{_?NumberQ,(-1|-1.|0|0.|1|1.)}..}):{},l:({_?NumberQ..}|{{_?NumberQ,_?NumberQ}..}):{},
+GurobiSolve[c:({_?NumberQ..}|_?MatrixQ|{{_?NumberQ..},_?MatrixQ}),m_?MatrixQ,b:({_?NumberQ..}|{{_?NumberQ,(-1|-1.|0|0.|1|1.)}..}):{},l:({_?NumberQ..}|{{_?NumberQ,_?NumberQ}..}):{},
 dom:(Integers|Reals|{(Integers|Reals)..}):Reals]:=Module[{procRhs,procDom,lb,ub,senses,cbeg,cind,cval},
 {cbeg,cind,cval}=matrix2compressedSparseRow[m];
 senses="";
@@ -69,7 +74,17 @@ Piecewise[{
 {procDom=StringJoin[Sequence@@(dom/.{Integers->"I",Reals->"C"})],MatchQ[dom,{(Integers|Reals)..}]}
 },Message[GurobiSolve::domerror,dom]];
 (*GurobiML`GurobiML`GurobiSolveLowLevel[c,lb,ub,cbeg, cind, N@cval,procRhs,senses,procDom][[2]]*)
-If[MatchQ[#,_List],#[[2]],Message[GurobiSolve::lowlevelmessage,#];Abort[];]&@GurobiML`GurobiML`GurobiSolveLowLevel[c,lb,ub,cbeg, cind, N@cval,procRhs,senses,procDom]
+If[MatchQ[#,_List],#[[2]],Message[GurobiSolve::lowlevelmessage,#];Abort[];]&@
+Switch[c,
+_?MatrixQ,
+GurobiML`GurobiML`GurobiSolveLowLevel[Array[0&,Length[Transpose[m]]],lb,ub,cbeg, cind, N@cval,procRhs,senses,procDom,Sequence@@matrix2sparse[c]],
+{_?NumberQ..},
+GurobiML`GurobiML`GurobiSolveLowLevel[c,lb,ub,cbeg, cind, N@cval,procRhs,senses,procDom,(*qrow*){},(*qcol*){},(*qval*){}],
+{{_?NumberQ..},_?MatrixQ},
+GurobiML`GurobiML`GurobiSolveLowLevel[c[[1]],lb,ub,cbeg, cind, N@cval,procRhs,senses,procDom,Sequence@@matrix2sparse[c[[2]]]],
+_,
+Message[GurobiSolve::objerror,c];Abort[];
+]
 ];
 
 

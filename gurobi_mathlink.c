@@ -122,7 +122,8 @@ QUIT:
 
 void solve(double *obj, long objlen, double *lb, long lblen, double *ub, long ublen, 
           int *cbeg, long cbegLen, int *cind, long cindLen, double *cval, long cvalLen, double *rhs, 
-          long rhsLen, char *senses, char *vtype) {
+          long rhsLen, char *senses, char *vtype, int *qrow, long qrowlen, int *qcol, long qcollen,
+          double *qval, long qvallen) {
   GRBenv   *env   = NULL;
   GRBmodel *model = NULL;
   int       error = 0;
@@ -179,11 +180,23 @@ void solve(double *obj, long objlen, double *lb, long lblen, double *ub, long ub
   error = GRBaddconstrs(model, cbegLen, cvalLen, cbeg, cind, cval, senses, rhs, NULL /*Row IDs*/);
   if (error) goto QUIT;
 
+  // error = GRBupdatemodel(model);
+  // if (error) goto QUIT;
+
+// /* Add quadratic terms */
+
+  error = GRBaddqpterms(model, qvallen, qrow, qcol, qval);
+  if (error) goto QUIT;
+
   error = GRBupdatemodel(model);
   if (error) goto QUIT;
 
   GRBwrite(model, "Blub.lp");
   if (error) goto QUIT;
+
+  // GRBwrite(model, "Blub.mps");
+  // if (error) goto QUIT;
+
 
 //   /* Optimize model */
 
