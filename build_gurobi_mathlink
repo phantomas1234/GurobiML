@@ -1,0 +1,6 @@
+MCC=/Applications/Mathematica.app/SystemFiles/Links/MathLink/DeveloperKit/CompilerAdditions/mcc
+MPREP=/Applications/Mathematica.app/SystemFiles/Links/MathLink/DeveloperKit/CompilerAdditions/mprep
+MATHLINK_INC=/Applications/Mathematica.app/SystemFiles/Links/MathLink/DeveloperKit/CompilerAdditions/
+
+# $MPREP 
+$MCC -n -fnested-functions -o GurobiML gurobi_mathlink.tm gurobi_mathlink.c -lgurobi45 -I/Library/gurobi450/mac64/include/ -L/Library/gurobi450/mac64/lib/

@@ -1,0 +1,1705 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 8.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       157,          7]
+NotebookDataLength[     68742,       1696]
+NotebookOptionsPosition[     65059,       1572]
+NotebookOutlinePosition[     65457,       1590]
+CellTagsIndexPosition[     65414,       1587]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["GurobiML Tests", "Section",
+ CellChangeTimes->{{3.5125886472592697`*^9, 3.512588651516317*^9}, 
+   3.512826628973776*^9, {3.512830924299155*^9, 3.512830925552828*^9}}],
+
+Cell[BoxData[
+ RowBox[{"Get", "[", "\"\<GurobiML`\>\"", "]"}]], "Input",
+ CellChangeTimes->{{3.512830927593811*^9, 3.512830938906189*^9}, {
+  3.5260662246554956`*^9, 3.526066224950016*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Names", "[", "\"\<GurobiML`GurobiML`*\>\"", "]"}]], "Input",
+ CellChangeTimes->{{3.512837090195674*^9, 3.51283709572659*^9}, {
+  3.512837220562833*^9, 3.5128372237051573`*^9}}],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{"\<\"GurobiSolve\"\>", ",", "\<\"GurobiSolveFromFile\"\>", 
+   ",", "\<\"GurobiSolveLowLevel\"\>", 
+   ",", "\<\"matrix2compressedSparseRow\"\>"}], "}"}]], "Output",
+ CellChangeTimes->{
+  3.512837096274111*^9, {3.512837217612286*^9, 3.512837224500301*^9}, 
+   3.512837433680811*^9, 3.512838017530222*^9, {3.512838052193565*^9, 
+   3.512838056329968*^9}, 3.512838202589642*^9, 3.51283828859623*^9, 
+   3.5260660320328836`*^9, 3.526066069314446*^9, 3.5260662330532703`*^9, 
+   3.526066301379283*^9, 3.526066663841242*^9, 3.5268198701347513`*^9, 
+   3.526820461562492*^9, 3.52682067997645*^9}]
+}, Open  ]],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"SetDirectory", "[", 
+   RowBox[{"NotebookDirectory", "[", "]"}], "]"}], ";"}]], "Input"],
+
+Cell[CellGroupData[{
+
+Cell["Build GurobiML", "Subsection",
+ CellChangeTimes->{{3.512826662597509*^9, 3.512826667773349*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"Block", "[", 
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{
+      "compilerDir", "=", 
+       "\"\</Applications/Mathematica.app/SystemFiles/Links/MathLink/\
+DeveloperKit/CompilerAdditions/\>\""}], ",", 
+      RowBox[{"gurobiDir", "=", "\"\</Library/gurobi450/mac64/\>\""}], ",", 
+      "buildString"}], "}"}], ",", "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{"buildString", "=", 
+      RowBox[{
+      "compilerDir", "<>", "\"\<mcc\>\"", "<>", 
+       "\"\< -n -fnested-functions -o GurobiML gurobi_mathlink.tm \
+gurobi_mathlink.c -lgurobi45 -I\>\"", "<>", "gurobiDir", "<>", 
+       "\"\<include -L\>\"", "<>", "gurobiDir", "<>", "\"\<lib\>\""}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"SetDirectory", "[", 
+      RowBox[{"NotebookDirectory", "[", "]"}], "]"}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"Print", "[", 
+      RowBox[{"Import", "[", 
+       RowBox[{
+        RowBox[{"\"\<!\>\"", "<>", "buildString"}], ",", "\"\<Text\>\""}], 
+       "]"}], "]"}]}]}], "\[IndentingNewLine]", "]"}], ";"}]], "Input",
+ CellChangeTimes->{{3.512826827925681*^9, 3.512826858034733*^9}, {
+  3.512826890617216*^9, 3.512827207180691*^9}, {3.512827289240088*^9, 
+  3.5128273027747917`*^9}}],
+
+Cell[BoxData["\<\"gurobi_mathlink.c: i686-apple-darwin10-gcc-4.2.1: \
+-lgurobi45: linker input file unused because linking not \
+done\\nGurobiML.tm.c: i686-apple-darwin10-gcc-4.2.1: -lgurobi45: linker input \
+file unused because linking not done\"\>"], "Print",
+ CellChangeTimes->{3.512827306196034*^9, 3.512827967978303*^9, 
+  3.5128374443027477`*^9, 3.5128380002835617`*^9, 3.512838039722248*^9, 
+  3.526066038085012*^9, 3.526066071134818*^9, 3.526066702070716*^9, 
+  3.526819874556096*^9}]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Install Link", "Subsection",
+ CellChangeTimes->{{3.512588665683282*^9, 3.5125886700923*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"SetDirectory", "[", 
+   RowBox[{"NotebookDirectory", "[", "]"}], "]"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Quiet", "[", 
+   RowBox[{"Uninstall", "[", "link", "]"}], "]"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Quiet", "@", 
+   RowBox[{"Check", "[", 
+    RowBox[{
+     RowBox[{"link", "=", 
+      RowBox[{"Install", "[", "\"\<GurobiML\>\"", "]"}]}], ",", 
+     RowBox[{"link", "=", 
+      RowBox[{"Install", "[", "\"\<GurobiML\>\"", "]"}]}]}], "]"}]}], 
+  ";"}]}], "Input",
+ CellChangeTimes->{{3.512492601250867*^9, 3.51249261473342*^9}, {
+  3.51249268612834*^9, 3.5124926865828943`*^9}, {3.512493097592469*^9, 
+  3.51249309807859*^9}, {3.512494470105426*^9, 3.512494470455791*^9}, {
+  3.51258847718454*^9, 3.512588479135541*^9}, {3.512588628828595*^9, 
+  3.512588636887301*^9}, {3.5125929495075493`*^9, 3.512592972781835*^9}, {
+  3.512593087139382*^9, 3.512593090451572*^9}, {3.512743836244224*^9, 
+  3.512743838724934*^9}, {3.512826715474247*^9, 3.5128267163046913`*^9}, {
+  3.512838157290772*^9, 3.512838166051095*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Names", "[", "\"\<GurobiML`GurobiML`*\>\"", "]"}]], "Input",
+ CellChangeTimes->{{3.512837090195674*^9, 3.51283709572659*^9}, {
+  3.512837220562833*^9, 3.5128372237051573`*^9}}],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{"\<\"GurobiSolve\"\>", ",", "\<\"GurobiSolveFromFile\"\>", 
+   ",", "\<\"GurobiSolveLowLevel\"\>", 
+   ",", "\<\"matrix2compressedSparseRow\"\>"}], "}"}]], "Output",
+ CellChangeTimes->{
+  3.512837096274111*^9, {3.512837217612286*^9, 3.512837224500301*^9}, 
+   3.512837433680811*^9, 3.512838017530222*^9, {3.512838052193565*^9, 
+   3.512838056329968*^9}, {3.512838202589642*^9, 3.512838215413228*^9}, 
+   3.512838297135829*^9, 3.5260660477445*^9, 3.52606607945475*^9, 
+   3.5260661505828753`*^9, 3.526066306133004*^9, 3.526066704941511*^9, 
+   3.526819880480138*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData["GurobiSolve"], "Input",
+ CellChangeTimes->{{3.5260661526689243`*^9, 3.526066158652822*^9}}],
+
+Cell[BoxData["GurobiSolve"], "Output",
+ CellChangeTimes->{3.526066705709096*^9, 3.5268198810984993`*^9}]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Test GurobiML", "Subsection",
+ CellChangeTimes->{{3.5125887093262568`*^9, 3.512588713624601*^9}}],
+
+Cell[CellGroupData[{
+
+Cell["High-level GurobiSolve", "Subsubsection",
+ CellChangeTimes->{{3.512828051598858*^9, 3.512828058990254*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"obj", "=", 
+   RowBox[{"{", 
+    RowBox[{"1.", ",", "2.", ",", "3.", ",", ".1"}], "}"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"constrMat", "=", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"-", "1"}], ",", "2", ",", "3", ",", "1"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"1", ",", 
+       RowBox[{"-", "3"}], ",", "1", ",", "0"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"0", ",", "1", ",", "0", ",", 
+       RowBox[{"-", "3.5"}]}], "}"}]}], "}"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{"GurobiSolve", "[", 
+  RowBox[{"obj", ",", "constrMat"}], "]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{"Import", "[", 
+    RowBox[{"\"\<Blub.lp\>\"", ",", "\"\<Text\>\""}], "]"}], "]"}], 
+  ";"}]}], "Input",
+ CellChangeTimes->{{3.5127634249781723`*^9, 3.512763436338669*^9}}],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{"0.`", ",", "0.`", ",", "0.`", ",", "0.`"}], "}"}]], "Output",
+ CellChangeTimes->{
+  3.5127632038105783`*^9, 3.5127632468067636`*^9, 3.5127632842940693`*^9, 
+   3.512763329928658*^9, {3.512763377907485*^9, 3.512763436803115*^9}, 
+   3.512764070164792*^9, 3.512827355854144*^9, {3.5128279452483397`*^9, 
+   3.51282797251184*^9}, 3.51282867520652*^9, 3.512837118649438*^9, 
+   3.5128372414730377`*^9, 3.51283745261351*^9, 3.512838078449355*^9, 
+   3.512838171445253*^9, 3.512838227477339*^9, 3.512838307228464*^9, 
+   3.526066048640038*^9, 3.526066080331514*^9, 3.526066236492536*^9, 
+   3.526066307633483*^9, {3.526066566073422*^9, 3.5260665703607903`*^9}, 
+   3.526066620427821*^9, 3.526066667993891*^9, 3.526066706442608*^9, 
+   3.526819882288612*^9, 3.526820014412963*^9, {3.526820466828341*^9, 
+   3.52682048583212*^9}, 3.5268206817525043`*^9}],
+
+Cell[BoxData["\<\"Minimize\\n  C0 + 2 C1 + 3 C2 + 0.1 C3\\nSubject To\\n R0: \
+- C0 + 2 C1 + 3 C2 + C3 = 0\\n R1: C0 - 3 C1 + C2 = 0\\n R2: C1 - 3.5 C3 = \
+0\\nBounds\\nEnd\"\>"], "Print",
+ CellChangeTimes->{
+  3.512763203813036*^9, 3.51276324683114*^9, 3.512763284287052*^9, 
+   3.512763329919849*^9, {3.512763377894174*^9, 3.512763436793811*^9}, 
+   3.5127640701539*^9, 3.512827355844912*^9, {3.512827945251563*^9, 
+   3.51282797245529*^9}, 3.512828675209992*^9, 3.51283711878862*^9, 
+   3.512837241571713*^9, 3.5128374526470203`*^9, 3.5128380785271807`*^9, 
+   3.512838171449142*^9, 3.512838227531049*^9, 3.512838307288602*^9, 
+   3.526066048687533*^9, 3.526066080364744*^9, 3.5260662364946527`*^9, 
+   3.5260663076784887`*^9, {3.526066566077845*^9, 3.526066570364847*^9}, 
+   3.526066620430292*^9, 3.52606666807104*^9, 3.526066706445932*^9, 
+   3.526819882316935*^9, 3.526820014448202*^9, {3.526820466877646*^9, 
+   3.526820485835438*^9}, 3.5268206817967873`*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"rhs", "=", 
+   RowBox[{"{", 
+    RowBox[{"0.", ",", "2.", ",", "0."}], "}"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{"GurobiSolve", "[", 
+  RowBox[{"obj", ",", "constrMat", ",", "rhs"}], "]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{"Import", "[", 
+    RowBox[{"\"\<Blub.lp\>\"", ",", "\"\<Text\>\""}], "]"}], "]"}], 
+  ";"}]}], "Input"],
+
+Cell[BoxData[
+ RowBox[{
+  StyleBox[
+   RowBox[{"GurobiSolve", "::", "lowlevelmessage"}], "MessageName"], 
+  RowBox[{
+  ":", " "}], "\<\"Gurobi interface returned the following status: \[NoBreak]\
+\\!\\(\\\"Model is infeasible\\\\n\\\"\\)\[NoBreak].\"\>"}]], "Message", "MSG",
+ CellChangeTimes->{3.526820488814722*^9, 3.52682068337547*^9}],
+
+Cell[BoxData["$Aborted"], "Output",
+ CellChangeTimes->{
+  3.5127634388868313`*^9, 3.512827902924065*^9, {3.512827946075913*^9, 
+   3.5128279728657303`*^9}, 3.5128383158542624`*^9, 3.526066055472001*^9, {
+   3.526066573477654*^9, 3.526066580417437*^9}, {3.52606661367934*^9, 
+   3.526066622404698*^9}, 3.526066670829461*^9, 3.526066708794039*^9, 
+   3.526819886046379*^9, 3.526820026622862*^9, 3.526820488821073*^9, 
+   3.526820683378433*^9}],
+
+Cell[BoxData["\<\"Minimize\\n  C0 + 2 C1 + 3 C2 + 0.1 C3\\nSubject To\\n R0: \
+- C0 + 2 C1 + 3 C2 + C3 = 0\\n R1: C0 - 3 C1 + C2 = 2\\n R2: C1 - 3.5 C3 = \
+0\\nBounds\\nEnd\"\>"], "Print",
+ CellChangeTimes->{
+  3.512763438878119*^9, 3.512827902913501*^9, {3.512827946065794*^9, 
+   3.512827972855735*^9}, 3.5128383158867073`*^9, 3.526066055475628*^9, {
+   3.526066573480111*^9, 3.5260665804197474`*^9}, {3.526066613681733*^9, 
+   3.526066622407742*^9}, 3.526066670835825*^9, 3.526066708830271*^9, 
+   3.526819886049322*^9, 3.526820026657967*^9, 3.526820488855701*^9, 
+   3.526820683408276*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"rhs", "=", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"0.", ",", "0"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"2.", ",", 
+       RowBox[{"-", "1"}]}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"3.", ",", "1"}], "}"}]}], "}"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{"GurobiSolve", "[", 
+  RowBox[{"obj", ",", "constrMat", ",", "rhs"}], "]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{"Import", "[", 
+    RowBox[{"\"\<Blub.lp\>\"", ",", "\"\<Text\>\""}], "]"}], "]"}], 
+  ";"}]}], "Input"],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{"6.`", ",", "3.`", ",", "0.`", ",", "0.`"}], "}"}]], "Output",
+ CellChangeTimes->{
+  3.5127634554552603`*^9, 3.512827904022861*^9, {3.512827946792609*^9, 
+   3.512827974668038*^9}, 3.512838316217857*^9, 3.526066673264296*^9, 
+   3.5260667097803307`*^9, 3.526819887870255*^9, 3.526820044889473*^9, 
+   3.52682072088459*^9}],
+
+Cell[BoxData["\<\"Minimize\\n  C0 + 2 C1 + 3 C2 + 0.1 C3\\nSubject To\\n R0: \
+- C0 + 2 C1 + 3 C2 + C3 = 0\\n R1: C0 - 3 C1 + C2 <= 2\\n R2: C1 - 3.5 C3 >= \
+3\\nBounds\\nEnd\"\>"], "Print",
+ CellChangeTimes->{
+  3.512763455445107*^9, 3.5128279040133247`*^9, {3.5128279467828827`*^9, 
+   3.5128279746610622`*^9}, 3.512838316253078*^9, 3.526066673270486*^9, 
+   3.526066709814148*^9, 3.5268198878880587`*^9, 3.526820044892303*^9, 
+   3.52682072088804*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"rhs", "=", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"0.", ",", "0"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"2.", ",", 
+       RowBox[{"-", "1"}]}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"3.", ",", "1"}], "}"}]}], "}"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"l", "=", 
+   RowBox[{"{", 
+    RowBox[{"1.", ",", "2.", ",", "3.", ",", "4."}], "}"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{"GurobiSolve", "[", 
+  RowBox[{"obj", ",", "constrMat", ",", "rhs", ",", "l"}], 
+  "]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{"Import", "[", 
+    RowBox[{"\"\<Blub.lp\>\"", ",", "\"\<Text\>\""}], "]"}], "]"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"rhs", "=", 
+   RowBox[{"{", 
+    RowBox[{"0.", ",", "2.", ",", "3."}], "}"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{"GurobiSolve", "[", 
+  RowBox[{"obj", ",", "constrMat", ",", "rhs", ",", "l"}], 
+  "]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{"Import", "[", 
+    RowBox[{"\"\<Blub.lp\>\"", ",", "\"\<Text\>\""}], "]"}], "]"}], 
+  ";"}]}], "Input",
+ CellChangeTimes->{3.512763494148161*^9}],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{"47.`", ",", "17.`", ",", "3.`", ",", "4.`"}], "}"}]], "Output",
+ CellChangeTimes->{3.512763498139583*^9, 3.51282798237416*^9, 
+  3.512838316535761*^9, 3.526066676132348*^9, 3.526066711697261*^9, 
+  3.526819891789473*^9, 3.5268207220340652`*^9}],
+
+Cell[BoxData["\<\"Minimize\\n  C0 + 2 C1 + 3 C2 + 0.1 C3\\nSubject To\\n R0: \
+- C0 + 2 C1 + 3 C2 + C3 = 0\\n R1: C0 - 3 C1 + C2 <= 2\\n R2: C1 - 3.5 C3 >= \
+3\\nBounds\\n C0 >= 1\\n C1 >= 2\\n C2 >= 3\\n C3 >= 4\\nEnd\"\>"], "Print",
+ CellChangeTimes->{3.512763498130432*^9, 3.512827982366891*^9, 
+  3.512838316543948*^9, 3.5260666761366863`*^9, 3.5260667117004232`*^9, 
+  3.5268198918239393`*^9, 3.5268207220695143`*^9}],
+
+Cell[BoxData[
+ RowBox[{
+  StyleBox[
+   RowBox[{"GurobiSolve", "::", "lowlevelmessage"}], "MessageName"], 
+  RowBox[{
+  ":", " "}], "\<\"Gurobi interface returned the following status: \[NoBreak]\
+\\!\\(\\\"Model is infeasible\\\\n\\\"\\)\[NoBreak].\"\>"}]], "Message", "MSG",
+ CellChangeTimes->{3.526820722072393*^9}],
+
+Cell[BoxData["$Aborted"], "Output",
+ CellChangeTimes->{3.512763498139583*^9, 3.51282798237416*^9, 
+  3.512838316535761*^9, 3.526066676132348*^9, 3.526066711697261*^9, 
+  3.526819891789473*^9, 3.526820722074006*^9}],
+
+Cell[BoxData["\<\"Minimize\\n  C0 + 2 C1 + 3 C2 + 0.1 C3\\nSubject To\\n R0: \
+- C0 + 2 C1 + 3 C2 + C3 = 0\\n R1: C0 - 3 C1 + C2 = 2\\n R2: C1 - 3.5 C3 = \
+3\\nBounds\\n C0 >= 1\\n C1 >= 2\\n C2 >= 3\\n C3 >= 4\\nEnd\"\>"], "Print",
+ CellChangeTimes->{3.512763498130432*^9, 3.512827982366891*^9, 
+  3.512838316543948*^9, 3.5260666761366863`*^9, 3.5260667117004232`*^9, 
+  3.5268198918239393`*^9, 3.526820722075925*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"obj", "=", 
+   RowBox[{"{", 
+    RowBox[{"1.", ",", "2.", ",", "3.", ",", ".1"}], "}"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"constrMat", "=", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"-", "1"}], ",", "2", ",", "3", ",", "1"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"1", ",", 
+       RowBox[{"-", "3"}], ",", "1", ",", "0"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"0", ",", "1", ",", "0", ",", 
+       RowBox[{"-", "3.5"}]}], "}"}]}], "}"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"rhs", "=", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"0.", ",", "0"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"2.", ",", 
+       RowBox[{"-", "1"}]}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"3.", ",", "1"}], "}"}]}], "}"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"l", "=", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"-", "1."}], ",", "1."}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"-", "2."}], ",", "2."}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"-", "3."}], ",", "3."}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"-", "4."}], ",", "4."}], "}"}]}], "}"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{"GurobiSolve", "[", 
+  RowBox[{"obj", ",", "constrMat", ",", "rhs", ",", "l"}], 
+  "]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{"Import", "[", 
+    RowBox[{"\"\<Blub.lp\>\"", ",", "\"\<Text\>\""}], "]"}], "]"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"rhs", "=", 
+   RowBox[{"{", 
+    RowBox[{"0.", ",", "2.", ",", "3."}], "}"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{"GurobiSolve", "[", 
+  RowBox[{"obj", ",", "constrMat", ",", "rhs", ",", "l"}], 
+  "]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{"Import", "[", 
+    RowBox[{"\"\<Blub.lp\>\"", ",", "\"\<Text\>\""}], "]"}], "]"}], 
+  ";"}]}], "Input"],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{
+   RowBox[{"-", "1.`"}], ",", "0.`", ",", "0.`", ",", 
+   RowBox[{"-", "1.`"}]}], "}"}]], "Output",
+ CellChangeTimes->{3.512763537956455*^9, 3.512827985690537*^9, 
+  3.512838316985918*^9, 3.5260666832334948`*^9, 3.526066713638538*^9, 
+  3.5268198966937323`*^9, 3.526820729541978*^9}],
+
+Cell[BoxData["\<\"Minimize\\n  C0 + 2 C1 + 3 C2 + 0.1 C3\\nSubject To\\n R0: \
+- C0 + 2 C1 + 3 C2 + C3 = 0\\n R1: C0 - 3 C1 + C2 <= 2\\n R2: C1 - 3.5 C3 >= \
+3\\nBounds\\n -1 <= C0 <= 1\\n -2 <= C1 <= 2\\n -3 <= C2 <= 3\\n -4 <= C3 <= \
+4\\nEnd\"\>"], "Print",
+ CellChangeTimes->{3.5127635379475107`*^9, 3.512827985682948*^9, 
+  3.512838316989347*^9, 3.526066683239575*^9, 3.5260667136415243`*^9, 
+  3.526819896728723*^9, 3.526820729604093*^9}],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{
+   RowBox[{"-", "1.`"}], ",", 
+   RowBox[{"-", "2.`"}], ",", 
+   RowBox[{"-", "3.`"}], ",", 
+   RowBox[{"-", "1.`"}]}], "}"}]], "Output",
+ CellChangeTimes->{3.512763537956455*^9, 3.512827985690537*^9, 
+  3.512838316985918*^9, 3.5260666832334948`*^9, 3.526066713638538*^9, 
+  3.5268198966937323`*^9, 3.526820729625511*^9}],
+
+Cell[BoxData["\<\"Minimize\\n  C0 + 2 C1 + 3 C2 + 0.1 C3\\nSubject To\\n R0: \
+- C0 + 2 C1 + 3 C2 + C3 = 0\\n R1: C0 - 3 C1 + C2 = 2\\n R2: C1 - 3.5 C3 = \
+3\\nBounds\\n -1 <= C0 <= 1\\n -2 <= C1 <= 2\\n -3 <= C2 <= 3\\n -4 <= C3 <= \
+4\\nEnd\"\>"], "Print",
+ CellChangeTimes->{3.5127635379475107`*^9, 3.512827985682948*^9, 
+  3.512838316989347*^9, 3.526066683239575*^9, 3.5260667136415243`*^9, 
+  3.526819896728723*^9, 3.526820729627803*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"obj", "=", 
+   RowBox[{"{", 
+    RowBox[{"1.", ",", "2.", ",", "3.", ",", ".1"}], "}"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"constrMat", "=", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"-", "1"}], ",", "2", ",", "3", ",", "1"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"1", ",", 
+       RowBox[{"-", "3"}], ",", "1", ",", "0"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"0", ",", "1", ",", "0", ",", 
+       RowBox[{"-", "3.5"}]}], "}"}]}], "}"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"rhs", "=", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"0.", ",", "0"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"2.", ",", 
+       RowBox[{"-", "1"}]}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"3.", ",", "1"}], "}"}]}], "}"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"l", "=", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"-", "1."}], ",", "1."}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"-", "2."}], ",", "2."}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"-", "3."}], ",", "3."}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"-", "4."}], ",", "4."}], "}"}]}], "}"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{"GurobiSolve", "[", 
+  RowBox[{"obj", ",", "constrMat", ",", "rhs", ",", "l", ",", "Integers"}], 
+  "]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{"Import", "[", 
+    RowBox[{"\"\<Blub.lp\>\"", ",", "\"\<Text\>\""}], "]"}], "]"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"rhs", "=", 
+   RowBox[{"{", 
+    RowBox[{"0.", ",", "2.", ",", "3."}], "}"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{"GurobiSolve", "[", 
+  RowBox[{"obj", ",", "constrMat", ",", "rhs", ",", "l", ",", 
+   RowBox[{"{", 
+    RowBox[{"Integers", ",", "Reals", ",", "Integers", ",", "Reals"}], 
+    "}"}]}], "]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{"Import", "[", 
+    RowBox[{"\"\<Blub.lp\>\"", ",", "\"\<Text\>\""}], "]"}], "]"}], 
+  ";"}]}], "Input",
+ CellChangeTimes->{{3.5127641128667583`*^9, 3.512764123954324*^9}, {
+  3.5128280252144337`*^9, 3.5128280349921703`*^9}}],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{"0.`", ",", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"-", "1.`"}], ",", "0.`", ",", "0.`", ",", 
+     RowBox[{"-", "1.`"}]}], "}"}]}], "}"}]], "Output",
+ CellChangeTimes->{{3.5127641170535727`*^9, 3.512764124651211*^9}, 
+   3.512827989217433*^9, 3.512828036118867*^9, 3.512838318086385*^9, 
+   3.5260667170506563`*^9, 3.526819915726376*^9}],
+
+Cell[BoxData["\<\"Minimize\\n  C0 + 2 C1 + 3 C2 + 0.1 C3\\nSubject To\\n R0: \
+- C0 + 2 C1 + 3 C2 + C3 = 0\\n R1: C0 - 3 C1 + C2 <= 2\\n R2: C1 - 3.5 C3 >= \
+3\\nBounds\\n -1 <= C0 <= 1\\n -2 <= C1 <= 2\\n -3 <= C2 <= 3\\n -4 <= C3 <= \
+4\\nGenerals\\n C0 C1 C2 C3\\nEnd\"\>"], "Print",
+ CellChangeTimes->{{3.5127641170438843`*^9, 3.512764124642948*^9}, 
+   3.512827989210162*^9, 3.512828036110217*^9, 3.512838318089405*^9, 
+   3.526066717068343*^9, 3.526819915743924*^9}],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{"0.`", ",", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"-", "1.`"}], ",", 
+     RowBox[{"-", "2.`"}], ",", 
+     RowBox[{"-", "3.`"}], ",", 
+     RowBox[{"-", "1.4285714285714741`"}]}], "}"}]}], "}"}]], "Output",
+ CellChangeTimes->{{3.5127641170535727`*^9, 3.512764124651211*^9}, 
+   3.512827989217433*^9, 3.512828036118867*^9, 3.512838318086385*^9, 
+   3.5260667170506563`*^9, 3.526819915745515*^9}],
+
+Cell[BoxData["\<\"Minimize\\n  C0 + 2 C1 + 3 C2 + 0.1 C3\\nSubject To\\n R0: \
+- C0 + 2 C1 + 3 C2 + C3 = 0\\n R1: C0 - 3 C1 + C2 = 2\\n R2: C1 - 3.5 C3 = \
+3\\nBounds\\n -1 <= C0 <= 1\\n -2 <= C1 <= 2\\n -3 <= C2 <= 3\\n -4 <= C3 <= \
+4\\nGenerals\\n C0 C2\\nEnd\"\>"], "Print",
+ CellChangeTimes->{{3.5127641170438843`*^9, 3.512764124642948*^9}, 
+   3.512827989210162*^9, 3.512828036110217*^9, 3.512838318089405*^9, 
+   3.526066717068343*^9, 3.526819915778429*^9}]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["\<\
+Low-level access to GurobiSolveLowLevel\
+\>", "Subsubsection",
+ CellChangeTimes->{{3.512828066902892*^9, 3.512828078270741*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"obj", "=", 
+   RowBox[{"{", 
+    RowBox[{"1.", ",", "2.", ",", "3.", ",", ".1"}], "}"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"lb", "=", 
+   RowBox[{"{", 
+    RowBox[{"0.", ",", "0.", ",", "0.", ",", "2."}], "}"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"ub", "=", 
+   RowBox[{"{", 
+    RowBox[{"10.", ",", "100.", ",", "100.", ",", "3."}], "}"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"constrMat", "=", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"-", "1"}], ",", "2", ",", "3", ",", "1"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"1", ",", 
+       RowBox[{"-", "3"}], ",", "1", ",", "0"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"0", ",", "1", ",", "0", ",", 
+       RowBox[{"-", "3.5"}]}], "}"}]}], "}"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"rhs", "=", 
+   RowBox[{"{", 
+    RowBox[{"0.", ",", "2.", ",", "0."}], "}"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"senses", "=", "\"\<>>>\>\""}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"TableForm", "[", 
+   RowBox[{"constrMat", ".", 
+    RowBox[{"{", 
+     RowBox[{
+     "\"\<x1\>\"", ",", "\"\<x2\>\"", ",", "\"\<x3\>\"", ",", "\"\<x4\>\""}], 
+     "}"}]}], "]"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{"cbeg", ",", "cind", ",", "cval"}], "}"}], "=", 
+   RowBox[{"matrix2compressedSparseRow", "[", "constrMat", "]"}]}], 
+  ";"}], "\n", 
+ RowBox[{
+  RowBox[{"SetDirectory", "[", 
+   RowBox[{"NotebookDirectory", "[", "]"}], "]"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{"Import", "[", 
+  RowBox[{"\"\<!./build_gurobi_mathlink\>\"", ",", "\"\<Text\>\""}], 
+  "]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Quiet", "[", 
+   RowBox[{"Uninstall", "[", "link", "]"}], "]"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Quiet", "@", 
+   RowBox[{"Check", "[", 
+    RowBox[{
+     RowBox[{"link", "=", 
+      RowBox[{"Install", "[", "\"\<GurobiML\>\"", "]"}]}], ",", 
+     RowBox[{"link", "=", 
+      RowBox[{"Install", "[", "\"\<GurobiML\>\"", "]"}]}]}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{"GurobiSolveLowLevel", "[", 
+  RowBox[{"obj", ",", 
+   RowBox[{"{", "}"}], ",", 
+   RowBox[{"{", "}"}], ",", "cbeg", ",", " ", "cind", ",", " ", 
+   RowBox[{"N", "@", "cval"}], ",", "rhs", ",", "senses", ",", 
+   "\"\<CCCC\>\""}], "]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{"Import", "[", 
+    RowBox[{"\"\<Blub.lp\>\"", ",", "\"\<Text\>\""}], "]"}], "]"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{"GurobiSolveLowLevel", "[", 
+  RowBox[{"obj", ",", 
+   RowBox[{"{", "}"}], ",", 
+   RowBox[{"{", "}"}], ",", "cbeg", ",", " ", "cind", ",", " ", 
+   RowBox[{"N", "@", "cval"}], ",", 
+   RowBox[{"{", "}"}], ",", "\"\<>\>\"", ",", "\"\<BB\>\""}], 
+  "]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{"Import", "[", 
+    RowBox[{"\"\<Blub.lp\>\"", ",", "\"\<Text\>\""}], "]"}], "]"}], 
+  ";"}]}], "Input",
+ CellChangeTimes->{{3.512758013828734*^9, 3.512758014302326*^9}, 
+   3.512758553729127*^9, {3.5127586112811193`*^9, 3.512758611449667*^9}, {
+   3.51275864470604*^9, 3.5127586447591476`*^9}, {3.5127593909992733`*^9, 
+   3.512759427431797*^9}, {3.512759487586651*^9, 3.5127595178337917`*^9}, {
+   3.512759597956503*^9, 3.5127596131396513`*^9}, {3.512759656836626*^9, 
+   3.5127596652442427`*^9}}],
+
+Cell[BoxData["\<\"gurobi_mathlink.c: i686-apple-darwin10-gcc-4.2.1: \
+-lgurobi45: linker input file unused because linking not \
+done\\nGurobiML.tm.c: i686-apple-darwin10-gcc-4.2.1: -lgurobi45: linker input \
+file unused because linking not done\"\>"], "Output",
+ CellChangeTimes->{
+  3.512758015898747*^9, {3.512758532046343*^9, 3.512758554868123*^9}, {
+   3.512758585126741*^9, 3.512758612668874*^9}, 3.512758646286448*^9, {
+   3.5127593832231216`*^9, 3.512759429114595*^9}, {3.512759489168771*^9, 
+   3.5127595248263273`*^9}, {3.512759599980453*^9, 3.5127596147134542`*^9}, {
+   3.512759659086672*^9, 3.512759666642337*^9}, 3.5128383203046093`*^9, 
+   3.526066730200266*^9, 3.526819918979259*^9}],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{"0.`", ",", 
+   RowBox[{"{", 
+    RowBox[{"1.5`", ",", "0.`", ",", "0.5`", ",", "0.`"}], "}"}]}], 
+  "}"}]], "Output",
+ CellChangeTimes->{
+  3.512758015898747*^9, {3.512758532046343*^9, 3.512758554868123*^9}, {
+   3.512758585126741*^9, 3.512758612668874*^9}, 3.512758646286448*^9, {
+   3.5127593832231216`*^9, 3.512759429114595*^9}, {3.512759489168771*^9, 
+   3.5127595248263273`*^9}, {3.512759599980453*^9, 3.5127596147134542`*^9}, {
+   3.512759659086672*^9, 3.512759666642337*^9}, 3.5128383203046093`*^9, 
+   3.526066730200266*^9, 3.526819919023869*^9}],
+
+Cell[BoxData["\<\"Minimize\\n  C0 + 2 C1 + 3 C2 + 0.1 C3\\nSubject To\\n R0: \
+- C0 + 2 C1 + 3 C2 + C3 >= 0\\n R1: C0 - 3 C1 + C2 >= 2\\n R2: C1 - 3.5 C3 >= \
+0\\nBounds\\nEnd\"\>"], "Print",
+ CellChangeTimes->{
+  3.512758612747077*^9, 3.512758646391824*^9, {3.512759383356832*^9, 
+   3.5127594291958313`*^9}, {3.512759489248232*^9, 3.512759524911579*^9}, {
+   3.51275960005917*^9, 3.512759614788164*^9}, {3.512759659159827*^9, 
+   3.512759666737694*^9}, 3.512838320379614*^9, 3.526066730286216*^9, 
+   3.526819919049932*^9}],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{"0.`", ",", 
+   RowBox[{"{", 
+    RowBox[{"0.`", ",", "0.`", ",", "0.`", ",", "0.`"}], "}"}]}], 
+  "}"}]], "Output",
+ CellChangeTimes->{
+  3.512758015898747*^9, {3.512758532046343*^9, 3.512758554868123*^9}, {
+   3.512758585126741*^9, 3.512758612668874*^9}, 3.512758646286448*^9, {
+   3.5127593832231216`*^9, 3.512759429114595*^9}, {3.512759489168771*^9, 
+   3.5127595248263273`*^9}, {3.512759599980453*^9, 3.5127596147134542`*^9}, {
+   3.512759659086672*^9, 3.512759666642337*^9}, 3.5128383203046093`*^9, 
+   3.526066730200266*^9, 3.5268199190520782`*^9}],
+
+Cell[BoxData["\<\"Minimize\\n  C0 + 2 C1 + 3 C2 + 0.1 C3\\nSubject To\\n R0: \
+- C0 + 2 C1 + 3 C2 + C3 >= 0\\n R1: C0 - 3 C1 + C2 = 0\\n R2: C1 - 3.5 C3 = 0\
+\\nBounds\\nBinaries\\n C0 C1\\nEnd\"\>"], "Print",
+ CellChangeTimes->{
+  3.512758612747077*^9, 3.512758646391824*^9, {3.512759383356832*^9, 
+   3.5127594291958313`*^9}, {3.512759489248232*^9, 3.512759524911579*^9}, {
+   3.51275960005917*^9, 3.512759614788164*^9}, {3.512759659159827*^9, 
+   3.512759666737694*^9}, 3.512838320379614*^9, 3.526066730286216*^9, 
+   3.5268199190756702`*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"obj", "=", 
+   RowBox[{
+    RowBox[{"-", "1"}], "*", 
+    RowBox[{"{", 
+     RowBox[{"1.", ",", "2.", ",", "3.", ",", ".1"}], "}"}]}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"lb", "=", 
+   RowBox[{"{", 
+    RowBox[{"0.", ",", "0.", ",", "0.", ",", "2."}], "}"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"ub", "=", 
+   RowBox[{"{", 
+    RowBox[{"10.", ",", "100.", ",", "100.", ",", "3."}], "}"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"constrMat", "=", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"-", "1"}], ",", "2", ",", "3", ",", "1"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"1", ",", 
+       RowBox[{"-", "3"}], ",", "1", ",", "0"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"0", ",", "1", ",", "0", ",", 
+       RowBox[{"-", "3.5"}]}], "}"}]}], "}"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"rhs", "=", 
+   RowBox[{"{", 
+    RowBox[{"0.", ",", "0.", ",", "0."}], "}"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"senses", "=", "\"\<>>>\>\""}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"TableForm", "[", 
+   RowBox[{"constrMat", ".", 
+    RowBox[{"{", 
+     RowBox[{
+     "\"\<x1\>\"", ",", "\"\<x2\>\"", ",", "\"\<x3\>\"", ",", "\"\<x4\>\""}], 
+     "}"}]}], "]"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{"cbeg", ",", "cind", ",", "cval"}], "}"}], "=", 
+   RowBox[{"matrix2compressedSparseRow", "[", "constrMat", "]"}]}], 
+  ";"}], "\n", 
+ RowBox[{
+  RowBox[{"SetDirectory", "[", 
+   RowBox[{"NotebookDirectory", "[", "]"}], "]"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Import", "[", 
+   RowBox[{"\"\<!./build_gurobi_mathlink\>\"", ",", "\"\<Text\>\""}], "]"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Quiet", "[", 
+   RowBox[{"Uninstall", "[", "link", "]"}], "]"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Quiet", "@", 
+   RowBox[{"Check", "[", 
+    RowBox[{
+     RowBox[{"link", "=", 
+      RowBox[{"Install", "[", "\"\<GurobiML\>\"", "]"}]}], ",", 
+     RowBox[{"link", "=", 
+      RowBox[{"Install", "[", "\"\<GurobiML\>\"", "]"}]}]}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{"GurobiSolveLowLevel", "[", 
+  RowBox[{
+  "obj", ",", "lb", ",", "ub", ",", "cbeg", ",", " ", "cind", ",", " ", 
+   RowBox[{"N", "@", "cval"}], ",", "rhs", ",", "senses", ",", 
+   "\"\<CCCC\>\""}], "]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{"Import", "[", 
+    RowBox[{"\"\<Blub.lp\>\"", ",", "\"\<Text\>\""}], "]"}], "]"}], 
+  ";"}]}], "Input",
+ CellChangeTimes->{{3.512590637780755*^9, 3.512590672582746*^9}, {
+  3.512590706942028*^9, 3.512590791638253*^9}, {3.512742614615015*^9, 
+  3.512742614926705*^9}, {3.512745456274248*^9, 3.512745456962376*^9}, {
+  3.51275150179842*^9, 3.512751522036757*^9}, {3.512751916912046*^9, 
+  3.512751917390585*^9}, {3.512753595580854*^9, 3.512753625529542*^9}, {
+  3.5127557710726748`*^9, 3.512755792141466*^9}, {3.512758620529138*^9, 
+  3.5127586207538767`*^9}, {3.512759570555354*^9, 3.512759576856677*^9}, {
+  3.526066747136415*^9, 3.526066748279023*^9}}],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{"0.`", ",", 
+   RowBox[{"{", 
+    RowBox[{"10.`", ",", "36.666666666666664`", ",", "100.`", ",", "3.`"}], 
+    "}"}]}], "}"}]], "Output",
+ CellChangeTimes->{{3.512753614526471*^9, 3.512753646338888*^9}, 
+   3.512753865423356*^9, 3.5127548067615137`*^9, {3.512754934810258*^9, 
+   3.512754956140432*^9}, {3.512755783519966*^9, 3.512755793743722*^9}, 
+   3.5127565367400837`*^9, 3.512758004102522*^9, 3.51275853772117*^9, 
+   3.512758591925181*^9, 3.512758622392848*^9, 3.512759537419278*^9, {
+   3.5127595724239473`*^9, 3.5127595915136538`*^9}, {3.526066745029621*^9, 
+   3.5260667497445517`*^9}}],
+
+Cell[BoxData["\<\"Minimize\\n  - C0 - 2 C1 - 3 C2 - 0.1 C3\\nSubject To\\n \
+R0: - C0 + 2 C1 + 3 C2 + C3 >= 0\\n R1: C0 - 3 C1 + C2 >= 0\\n R2: C1 - 3.5 \
+C3 >= 0\\nBounds\\n C0 <= 10\\n C1 <= 100\\n C2 <= 100\\n 2 <= C3 <= \
+3\\nEnd\"\>"], "Print",
+ CellChangeTimes->{
+  3.51275862242199*^9, 3.512759537441712*^9, {3.512759572451138*^9, 
+   3.512759591541861*^9}, {3.5260667450615*^9, 3.52606674976882*^9}}]
+}, Open  ]],
+
+Cell[BoxData[
+ GraphicsBox[
+  TagBox[RasterBox[CompressedData["
+1:eJztnT9vq1gaxi3tl5h2P0DQfoArbei2GSGtbkczmoJqtHEZSqQpQrFaqqWZ
+UFFcxU3chCJuYmnjwhRB2lDEBStdF7EUJHMlI12kG+35Aw62McGxiR37+Ul3
+xjaHw+Hw8J73EPs5f/715O+//qnRaPyT/AvJP/r6BwAAAAAAAIDxDAAAAAAA
+AAAA1EcSut1Ot+uFST3lwfNzOHA7DqE7GMXbbsueEvWEBkHoRvWUP3Sitio2
+cjRtb9tN2kfiwNI0TbeDitF11fL1EHRMzexuMbRVbEAysIl0FbNHS8ZDS6Hv
+/MMOyfGgLYuS3DRsUyUhURBEw/H8jikJ9J2k2kMmrWHPViRRYIiy6gxI3Ixa
+qiTJktS0QlJi1G1KkiSKeid4jn1dUZSmMYir1Z8r77c0UukLEinik+qTkasr
+Eg3agtg0nLDsnJKOLgui0uFND11VEmXNefU6uwap3iituSJRi/SF2pqOLZ7d
+FGRztKEGDDumKKpedj6jjtZoiL3ZgcxvqYIocWRZmXbjvhK5ZqMU2fKToTP/
+qUB7O/KsdFBrdVhMIKg0osauRF9LpG+r1J8v7xriXAFB7z3Hnjz3abNdErmT
+oM3qs8htZNM9hXZQpuIkoZXRQwvGiL1fs1ddk5yQ0EmFG6i0wU5Zg9/egNCi
+Jyh7s+c37Nq6bhBMy2AJW0NpDVY/jw9D5KUys9zwOfFVds6iSkXS0aiiJMON
+g67WVFSzm7xIV+K3f8+Q8uJqDVhvxi5TneRGlerPl0+icDgchSNXyVTcHsS+
+zd6J+pBUHnbZIQVnWHatB2wXURSY5MuuYOQaizeXSFq1DuzG58qJWY+Z3tK8
+f40GJA7rQ2V5pCXXiw57zfZ+Jx2ZzLSAvbOYRHife6acyoymYF7LTEf1RiY5
+xkjPPqNxlVMg49L6c+UZCVc4weiNWEm6myApKkUR0k3lw296LCKm8itI0hXb
+suyWrcmkYsm0bfLW8V5NAcphRxcNckJdTaCD1OYbELbYRI+kccvuZzIqCdPb
+f69JZSaZTEHppTdcqpCpzMJeFi4EWdOUZTKW9G5a6aKMS+ufk7GXJSjNLMjw
+kiy6ioIo0pRZlOzl8Y03LB0oJKOiIn3SOMHcVNQaOirNKwYe+Z9oVortKzQg
+GfKzk9kQWUzEe1VxD+D5TyozsUxmLusyUevQIiNHyEluLqlII+SijEvrz5cf
+dvW0riaZIiVxFMVxkspYttklHlq6btptv/QpM99FaSrsHqqkIpfekPompngM
+nvCzrKZd7RFM5QaEJu/GTkmMD3QWqp29D8SMKjLzLR4MRVXPBnuWG8d+OsXT
+2j07jaAKnWtksuytKONeFJnzMzw6NI+G7Ww0aGaJjVQSZEgyzW4Eh7x2mrS8
+5b8ekqLAc/0NXvXESWcCZsVbo2IDWJynPWC1bMs0Lcs0zNbsFDY7NAnWPfZH
+Evp3En+X/7i05vc8J/fnfNAf03fjc5673tF39+c8lPV/PN2dHqeaOlZO5SMm
+xf5/z464cm1a+vGGx+Vj7frHpM+jZ39crf6X8mmBGdi+j337ZcuRfHn/tPyc
+Hg3aWqU/5md4Rw9zdPa4Zk+tzrhPk7GTy2Cz1fbN+cc2pNdvxzNHNhe78cgo
+6bLDYfz09DSebLUJk6dH2ojvW21EdYLLEyowqAd8TCbB9anCYubp1bbbAsAb
+mdzbLPc5u9/u8PVx2HZuDgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAALAFvnz5
+8vnz50+fPtV6lG1/URTsLX/88cdnxu+//77ttgCwMoZh/I1BlLzttgCwMiTw
+kvyBRGCSS2y7LRvl+1P/5vrm9m68bNNN0aaqlU+W/j60ZNMO8PTQv74i3Dw8
+bud3So+sAdc3dxs8PlHvTz/9tH4EngT969uHlS5frYk3Jeox64h5z0a+aQ1f
+4mTQtYSGWLRvyaZdYOv2wklHz/+AX+qU2tmtRD4av7GK2GOeJRvxJt0cqReK
+7C121Tq+xIkrLqu2ZFOdbN1eeKUGSAYtmQy79Pildp1vgOTGRMk8N15x17jd
+TN1F6gxCsds2JObIxIyKzXShgtjXJFGSNX45AkcXRTF1xE1l3FA0lfsLN81O
+2sKcL/FziQUxUbsqM3Nj5o3sky1xq5kGNFGS9BnHy6JNybBtqNRemRkStnrl
+1jr1+htXsBeu1984CX3btAdpA2LqsyTOa2Yj/sZEw0TJRM9E1RV3CZijkVTU
+pA2S+VsKkpyZY3JrppzD8HNqz5t6aU5lnEfUe89zey21IB5qwtwGqReGRu5D
+YcYEdXFTuOiBozol9mXv6W9cbC/8Lv7G0cDr2Zpc2Bsb9Dde4bnxqCPQA/k+
+6XShRhmnnn6i5g7DcNDRdbPldEfJ87ynZc4Sdipj3aH9QAILeye78cxeyyyI
+MzdOpUtiYzLg7mOmG8aBw2Ku1AnCuYs2tymz/xUtGoRDJ00LlXJLsnfxN15u
+L/wO/sZxb3q7c/vc4srfz994ZGRB2CcjRJ0yDnt6rqsEklS4w3lj7ediGWcT
+rrDLNcYi8MteyyyI0xuHBkZKEsep+uY9jXPMbvK5T2xqp0kuTK4BZdTtb1xu
+L/wO/sY0hscjT2fXyi06yff0N+YDEPdO58NKrVO8oEcSt/wwL83F1WfqMFwg
+41Q2UT6RyMu42IJ4KmO+dxKFIRdyZRmnNUzVOJv/LKdOf+MK9sI1+hsn0XD4
+sopYzJalMBf7cXV/Y5I8/GU5pbvOpIJTSsagdfAdS1PJ9GtA7mO/o78cK9Nq
+h95CSZuZqc4lFSYbuYZ0RpNpbFHGCxbEaXlBZZPHkPu+ypb3osbFm3Z2UzaC
+KD2a/TwP2jwxkQvjz5Q6/Y2r2AvX6G8ctOhJOdnNyX1i7flnJe/sbxz3WhaH
+jCUsYZcN0/ZGtTxs8rLJUlM39CZ/LXNH4nRDbvK3OMUj29JXKpuw5NfsWGZB
+/DL1E6TsaWubDD25KaE8J7O5TZE3XQdEmratVJm1+htXsBfm1OVvzBPvhqT1
+BkOvY9FOFfTZEWfL/sab9e0vImzrmShYX9hu2gGDtjbVjsZup1QqXKskj25m
+SlfMNLok3tSOm0BSvJcnCoLc9tOrFwcd5WXEEY0On3Al3ewZ/oIm5zclwx7L
+G7N7yOqVdhGba0wHU/40fv5Cvx23wF646G9D2dyt2S4N2m9i0MnZmUvawvKu
+UYG/cc3Jah4aLet84JaSxCElmr89Y5K5hiUKyW9PopHn8IRIzmVfcTgqqpn0
+LDvk3OdJFBUWLtyUsMMXl95JAvqXAPGVlXbeTHYR66n9UHCnS9e8w3330SAD
+kMr9jVVn220BJcRtVeJ/lmutu/bWHsKTc0HWD3wNXAAAAB+LNb8aCgAAAAAA
+wN6w7dwcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMBO81YzWAB2i/yyNe953G1/
+URTsIV++fPnll19IZD49Pd12WwBYl99+++3Tp0/kv9tuCADrwp02Kxf/fnd9
+dfe4ywsQgcOCxGEi4JWi8dfrs0ajcXb7tNKB3jMP328qriBzCPCFEnhuvMJu
+8cgxUqNLw92thZg+IPUuYVOBNy5hswvwJxVEwG94UuEyI2rdpO5+kPH6vOMS
+NsWsuoTNjrDmc+PQd316yr4EGW+Id1nCZjmrLGGzb0R0WUPIeEPUvYRNhaNX
+W8Jm34gh4w1S5xI2FXjDEjZbZ40lbHJAxpujziVsqrH6EjZ7AmS8IWpdwqYy
+Ky9hsydAxpuh3iVsqlPfEjY7DRuGjOqr8YHdpt4lbACoGSxhA/YALGEDAAAA
+ALAVVvwCKQAAAAAAAHvLtnNzAAAAAAAAAAAAAAAAAAAAAAAAAOwk8bDX6QbR
+gp1FEt52bv737ZBsLsCHhVsB6Is/ov52Sz4/vcWPq8EHIPJMaldY8APUb77r
+jfC7VFCVlVyRV3Mw9luqIEocWVZksqvtz1THZCw2VZn5DMmqNeAHjn3tZ/mS
+vIk9VWq2HWZzS0rKWm+UZhqh125KYmoEKqtdZoGbBI4sKYZBfYsEWf/3P3bd
+b3nbXxTdH74Hl8y68HzyY8LkcnQZTJYV7lMH46PrR/4uOCXFT66WLXfx9cY+
+OzMI5rlxxG0+Lx7yBcZ3JtehYlxcmqdMyvaYbJj0/9po/Kv/RF6k/qBn57Zx
+krXzx4/Ha1rhkWJfXV/wHY9NsuO4n1YoydKxcvGfVVoLPjoPzBX5+JhK4+Ty
+oazo16upGid35zQluBu/Wv/47pxUfXRyOZn/nKpONvv87T1rxgW5iWZlLJ/f
+8QK3Z0eNI+OJHPr+4rgh32TrbLDPzaesQiUr/7bWgg/L+DyNehdLA3G+5LFB
+1HCjEW2eBq9VTaI9vT2Oz74u1sVUd/EwyUpe0OUzmHqnMj4mn2TauyPR9chM
+34yDK9vUTk8kHuglFo1ZhTmtrtxa8JF5nLoiP75W9OvVKR2pH+5O6Ujef6X0
+uM/SWqVfFAW56uypjFnwLJBxPw27d+Yxl/H43ubJw7Eka+b5mZwlFazCafmV
+W/vubDs33ytWc0VewcE40OkkTHSW+M7yKZ7eTR+sMYvvhu2TmZ17zE1WZ91W
+PVNsCGZE1yuhTWhlR6fO9iL9nFc44856sH7LB8YSV+SopZJpfrvokcWig3Fh
+4ayYbHZ7HYfT9fNK4qojFbXcwaBnMcmzNaFek7Fv0ftOd7zRKHBMvpiX7MVF
+Mj5Yv+XDYpkrckQk0xCKFxpbcDAuLByZPFHJM1uG30FKU063SprHN8fuz3T5
+m288lk7XwfEsiUdd+mBQnNapGGxZutYg5hXOrZtzoH7LgBG0lYZkFz5AXnQw
+LilchTgKw3Blg2u20+t7wW/5gAk0QbAWlgNb4mBcXHjrwG8ZFPKxHIw/VmsB
+AAAAAAAAAAAAAAAAAAD2gG1/URQAAAAAAIBdYdu5OQAAAAAAALvC/wHLTH/c
+
+    "], {{0, 141}, {237, 0}}, {0, 255},
+    ColorFunction->RGBColor],
+   BoxForm`ImageTag["Byte", ColorSpace -> "RGB", Interleaving -> True],
+   Selectable->False],
+  BaseStyle->"ImageGraphics",
+  ImageSize->Automatic,
+  ImageSizeRaw->{237, 141},
+  PlotRange->{{0, 237}, {0, 141}}]], "Input",
+ Evaluatable->False],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"obj", "=", 
+   RowBox[{"{", 
+    RowBox[{"1.", ",", "1.", ",", "2."}], "}"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"lb", "=", 
+   RowBox[{"{", 
+    RowBox[{"0.", ",", "0.", ",", "0."}], "}"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"ub", "=", 
+   RowBox[{"{", 
+    RowBox[{"100.", ",", "100.", ",", "100."}], "}"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"constrMat", "=", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"1", ",", "2", ",", "3"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"1", ",", "1", ",", "0"}], "}"}]}], "}"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"rhs", "=", 
+   RowBox[{"{", 
+    RowBox[{"4.", ",", "1."}], "}"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"senses", "=", "\"\<<>\>\""}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{"TableForm", "[", 
+  RowBox[{"constrMat", ".", 
+   RowBox[{"{", 
+    RowBox[{"\"\<x\>\"", ",", "\"\<y\>\"", ",", "\"\<z\>\""}], "}"}]}], 
+  "]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"{", 
+   RowBox[{"cbeg", ",", "cind", ",", "cval"}], "}"}], "=", 
+  RowBox[{"matrix2compressedSparseRow", "[", "constrMat", "]"}]}], "\n", 
+ RowBox[{
+  RowBox[{"SetDirectory", "[", 
+   RowBox[{"NotebookDirectory", "[", "]"}], "]"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{"Import", "[", 
+  RowBox[{"\"\<!./build_gurobi_mathlink\>\"", ",", "\"\<Text\>\""}], 
+  "]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Quiet", "[", 
+   RowBox[{"Uninstall", "[", "link", "]"}], "]"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Quiet", "@", 
+   RowBox[{"Check", "[", 
+    RowBox[{
+     RowBox[{"link", "=", 
+      RowBox[{"Install", "[", "\"\<GurobiML\>\"", "]"}]}], ",", 
+     RowBox[{"link", "=", 
+      RowBox[{"Install", "[", "\"\<GurobiML\>\"", "]"}]}]}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{"GurobiSolveLowLevel", "[", 
+  RowBox[{
+  "obj", ",", "lb", ",", "ub", ",", " ", "cbeg", ",", " ", "cind", ",", " ", 
+   RowBox[{"N", "@", "cval"}], ",", "rhs", ",", "senses", ",", 
+   "\"\<CCC\>\""}], "]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{"Import", "[", 
+    RowBox[{"\"\<Blub.lp\>\"", ",", "\"\<Text\>\""}], "]"}], "]"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{"GurobiSolveLowLevel", "[", 
+  RowBox[{
+  "obj", ",", "lb", ",", "ub", ",", " ", "cbeg", ",", " ", "cind", ",", " ", 
+   RowBox[{"N", "@", "cval"}], ",", "rhs", ",", "senses", ",", 
+   "\"\<BBB\>\""}], "]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{"Import", "[", 
+    RowBox[{"\"\<Blub.lp\>\"", ",", "\"\<Text\>\""}], "]"}], "]"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{"GurobiSolve", "[", 
+  RowBox[{"obj", ",", "constrMat", ",", 
+   RowBox[{"{", "}"}]}], "]"}]}], "Input",
+ CellChangeTimes->{{3.512751775579953*^9, 3.512751863564802*^9}, {
+  3.512753560715788*^9, 3.512753569109281*^9}, {3.51275417108663*^9, 
+  3.512754259406979*^9}, {3.51275465177214*^9, 3.512754667851231*^9}, {
+  3.512755769845585*^9, 3.512755772141279*^9}, {3.5127641570158*^9, 
+  3.512764184798851*^9}}],
+
+Cell[BoxData[
+ TagBox[
+  TagBox[GridBox[{
+     {
+      RowBox[{"\<\"x\"\>", "+", 
+       RowBox[{"2", " ", "\<\"y\"\>"}], "+", 
+       RowBox[{"3", " ", "\<\"z\"\>"}]}]},
+     {
+      RowBox[{"\<\"x\"\>", "+", "\<\"y\"\>"}]}
+    },
+    GridBoxAlignment->{
+     "Columns" -> {{Left}}, "ColumnsIndexed" -> {}, "Rows" -> {{Baseline}}, 
+      "RowsIndexed" -> {}},
+    GridBoxSpacings->{"Columns" -> {
+        Offset[0.27999999999999997`], {
+         Offset[0.5599999999999999]}, 
+        Offset[0.27999999999999997`]}, "ColumnsIndexed" -> {}, "Rows" -> {
+        Offset[0.2], {
+         Offset[0.4]}, 
+        Offset[0.2]}, "RowsIndexed" -> {}}],
+   Column],
+  Function[BoxForm`e$, 
+   TableForm[BoxForm`e$]]]], "Output",
+ CellChangeTimes->{{3.512753570639822*^9, 3.5127535819540586`*^9}, 
+   3.51275364949049*^9, 3.512753881555794*^9, {3.512754172795868*^9, 
+   3.512754260492812*^9}, {3.512754618504376*^9, 3.512754668682513*^9}, 
+   3.512754783531726*^9, 3.512754958130877*^9, 3.5127555017971087`*^9, 
+   3.512764151255965*^9}],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{"0", ",", "3"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"0", ",", "1", ",", "2", ",", "0", ",", "1"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"1", ",", "2", ",", "3", ",", "1", ",", "1"}], "}"}]}], 
+  "}"}]], "Output",
+ CellChangeTimes->{{3.512753570639822*^9, 3.5127535819540586`*^9}, 
+   3.51275364949049*^9, 3.512753881555794*^9, {3.512754172795868*^9, 
+   3.512754260492812*^9}, {3.512754618504376*^9, 3.512754668682513*^9}, 
+   3.512754783531726*^9, 3.512754958130877*^9, 3.5127555017971087`*^9, 
+   3.512764151258836*^9}],
+
+Cell[BoxData["\<\"gurobi_mathlink.c: i686-apple-darwin10-gcc-4.2.1: \
+-lgurobi45: linker input file unused because linking not \
+done\\nGurobiML.tm.c: i686-apple-darwin10-gcc-4.2.1: -lgurobi45: linker input \
+file unused because linking not done\"\>"], "Output",
+ CellChangeTimes->{{3.512753570639822*^9, 3.5127535819540586`*^9}, 
+   3.51275364949049*^9, 3.512753881555794*^9, {3.512754172795868*^9, 
+   3.512754260492812*^9}, {3.512754618504376*^9, 3.512754668682513*^9}, 
+   3.512754783531726*^9, 3.512754958130877*^9, 3.5127555017971087`*^9, 
+   3.512764152292425*^9}],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{"1.`", ",", 
+   RowBox[{"{", 
+    RowBox[{"0.`", ",", "1.`", ",", "0.`"}], "}"}]}], "}"}]], "Output",
+ CellChangeTimes->{{3.512753570639822*^9, 3.5127535819540586`*^9}, 
+   3.51275364949049*^9, 3.512753881555794*^9, {3.512754172795868*^9, 
+   3.512754260492812*^9}, {3.512754618504376*^9, 3.512754668682513*^9}, 
+   3.512754783531726*^9, 3.512754958130877*^9, 3.5127555017971087`*^9, 
+   3.51276415235044*^9}],
+
+Cell[BoxData["\<\"Minimize\\n  C0 + C1 + 2 C2\\nSubject To\\n R0: C0 + 2 C1 + \
+3 C2 <= 4\\n R1: C0 + C1 >= 1\\nBounds\\n C0 <= 100\\n C1 <= 100\\n C2 <= 100\
+\\nEnd\"\>"], "Print",
+ CellChangeTimes->{{3.512753570710003*^9, 3.512753582024559*^9}, 
+   3.51275364956502*^9, 3.512753881744233*^9, {3.51275417287613*^9, 
+   3.5127542605678377`*^9}, {3.5127546185795307`*^9, 3.512754669589142*^9}, 
+   3.512754784419689*^9, 3.512754959016251*^9, 3.512755502699462*^9, 
+   3.512764152375332*^9}],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{"1.`", ",", 
+   RowBox[{"{", 
+    RowBox[{"0.`", ",", "1.`", ",", "0.`"}], "}"}]}], "}"}]], "Output",
+ CellChangeTimes->{{3.512753570639822*^9, 3.5127535819540586`*^9}, 
+   3.51275364949049*^9, 3.512753881555794*^9, {3.512754172795868*^9, 
+   3.512754260492812*^9}, {3.512754618504376*^9, 3.512754668682513*^9}, 
+   3.512754783531726*^9, 3.512754958130877*^9, 3.5127555017971087`*^9, 
+   3.512764152377434*^9}],
+
+Cell[BoxData["\<\"Minimize\\n  C0 + C1 + 2 C2\\nSubject To\\n R0: C0 + 2 C1 + \
+3 C2 <= 4\\n R1: C0 + C1 >= 1\\nBounds\\n C0 <= 100\\n C1 <= 100\\n C2 <= 100\
+\\nBinaries\\n C0 C1 C2\\nEnd\"\>"], "Print",
+ CellChangeTimes->{{3.512753570710003*^9, 3.512753582024559*^9}, 
+   3.51275364956502*^9, 3.512753881744233*^9, {3.51275417287613*^9, 
+   3.5127542605678377`*^9}, {3.5127546185795307`*^9, 3.512754669589142*^9}, 
+   3.512754784419689*^9, 3.512754959016251*^9, 3.512755502699462*^9, 
+   3.5127641524089327`*^9}]
+}, Open  ]],
+
+Cell[BoxData[
+ GraphicsBox[
+  TagBox[RasterBox[CompressedData["
+1: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
+
+    "], {{0, 180}, {273, 0}}, {0, 255},
+    ColorFunction->RGBColor],
+   BoxForm`ImageTag["Byte", ColorSpace -> "RGB", Interleaving -> True],
+   Selectable->False],
+  BaseStyle->"ImageGraphics",
+  ImageSize->Automatic,
+  ImageSizeRaw->{273, 180},
+  PlotRange->{{0, 273}, {0, 180}}]], "Input",
+ Evaluatable->False],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"obj", "=", 
+   RowBox[{"{", 
+    RowBox[{"10.", ",", "6.", ",", "4."}], "}"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"constrMat", "=", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"1.", ",", "1.", ",", "1."}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"10.", ",", "4.", ",", "5."}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"2.", ",", "2.", ",", "6."}], "}"}]}], "}"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"lb", "=", 
+   RowBox[{"{", 
+    RowBox[{"0.", ",", "0.", ",", "0."}], "}"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"ub", "=", 
+   RowBox[{"{", 
+    RowBox[{"1000.", ",", "1000.", ",", "1000."}], "}"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"rhs", "=", 
+   RowBox[{"{", 
+    RowBox[{"100.", ",", "600.", ",", "300."}], "}"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"senses", "=", "\"\<<<<\>\""}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{"TableForm", "[", 
+  RowBox[{"constrMat", ".", 
+   RowBox[{"{", 
+    RowBox[{"\"\<x1\>\"", ",", "\"\<x2\>\"", ",", "\"\<x3\>\""}], "}"}]}], 
+  "]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"{", 
+   RowBox[{"cbeg", ",", "cind", ",", "cval"}], "}"}], "=", 
+  RowBox[{"matrix2compressedSparseRow", "[", "constrMat", "]"}]}], "\n", 
+ RowBox[{
+  RowBox[{"SetDirectory", "[", 
+   RowBox[{"NotebookDirectory", "[", "]"}], "]"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{"Import", "[", 
+  RowBox[{"\"\<!./build_gurobi_mathlink\>\"", ",", "\"\<Text\>\""}], 
+  "]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Quiet", "[", 
+   RowBox[{"Uninstall", "[", "link", "]"}], "]"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Quiet", "@", 
+   RowBox[{"Check", "[", 
+    RowBox[{
+     RowBox[{"link", "=", 
+      RowBox[{"Install", "[", "\"\<GurobiML\>\"", "]"}]}], ",", 
+     RowBox[{"link", "=", 
+      RowBox[{"Install", "[", "\"\<GurobiML\>\"", "]"}]}]}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{"GurobiSolveLowLevel", "[", 
+  RowBox[{
+  "obj", ",", "lb", ",", "ub", ",", " ", "cbeg", ",", " ", "cind", ",", " ", 
+   RowBox[{"N", "@", "cval"}], ",", "rhs", ",", "senses", ",", 
+   "\"\<CCC\>\""}], "]"}]}], "Input",
+ CellChangeTimes->{{3.5127424764031363`*^9, 3.512742586005124*^9}, {
+   3.512742621157892*^9, 3.512742628807664*^9}, {3.512742682778487*^9, 
+   3.512742698545431*^9}, {3.512742871476108*^9, 3.5127428972915916`*^9}, {
+   3.5127433281703253`*^9, 3.512743342522904*^9}, {3.512744994698391*^9, 
+   3.512744997474156*^9}, {3.512745468689397*^9, 3.512745469801463*^9}, {
+   3.512753708582164*^9, 3.512753780172121*^9}, 3.5127539921011553`*^9, {
+   3.51275430747935*^9, 3.512754310957911*^9}, 3.51275439567655*^9, {
+   3.512755408020089*^9, 3.512755412242495*^9}, {3.512755726665522*^9, 
+   3.5127557280913982`*^9}}],
+
+Cell[BoxData[
+ TagBox[
+  TagBox[GridBox[{
+     {
+      RowBox[{
+       RowBox[{"1.`", " ", "\<\"x1\"\>"}], "+", 
+       RowBox[{"1.`", " ", "\<\"x2\"\>"}], "+", 
+       RowBox[{"1.`", " ", "\<\"x3\"\>"}]}]},
+     {
+      RowBox[{
+       RowBox[{"10.`", " ", "\<\"x1\"\>"}], "+", 
+       RowBox[{"4.`", " ", "\<\"x2\"\>"}], "+", 
+       RowBox[{"5.`", " ", "\<\"x3\"\>"}]}]},
+     {
+      RowBox[{
+       RowBox[{"2.`", " ", "\<\"x1\"\>"}], "+", 
+       RowBox[{"2.`", " ", "\<\"x2\"\>"}], "+", 
+       RowBox[{"6.`", " ", "\<\"x3\"\>"}]}]}
+    },
+    GridBoxAlignment->{
+     "Columns" -> {{Left}}, "ColumnsIndexed" -> {}, "Rows" -> {{Baseline}}, 
+      "RowsIndexed" -> {}},
+    GridBoxSpacings->{"Columns" -> {
+        Offset[0.27999999999999997`], {
+         Offset[0.5599999999999999]}, 
+        Offset[0.27999999999999997`]}, "ColumnsIndexed" -> {}, "Rows" -> {
+        Offset[0.2], {
+         Offset[0.4]}, 
+        Offset[0.2]}, "RowsIndexed" -> {}}],
+   Column],
+  Function[BoxForm`e$, 
+   TableForm[BoxForm`e$]]]], "Output",
+ CellChangeTimes->{{3.51275375702041*^9, 3.512753805875401*^9}, 
+   3.512753992711938*^9, {3.512754068635016*^9, 3.5127541319903708`*^9}, 
+   3.512754279541655*^9, 3.51275431152785*^9, {3.5127543481590357`*^9, 
+   3.5127543627882023`*^9}, {3.5127543960001307`*^9, 3.512754453415472*^9}, 
+   3.512754502791627*^9, 3.512754776526195*^9, 3.512754974161701*^9, {
+   3.512755408160543*^9, 3.5127554126045427`*^9}, {3.512755450687933*^9, 
+   3.512755471068433*^9}, 3.5260667703810463`*^9}],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{"0", ",", "3", ",", "6"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+    "0", ",", "1", ",", "2", ",", "0", ",", "1", ",", "2", ",", "0", ",", "1",
+      ",", "2"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+    "1.`", ",", "1.`", ",", "1.`", ",", "10.`", ",", "4.`", ",", "5.`", ",", 
+     "2.`", ",", "2.`", ",", "6.`"}], "}"}]}], "}"}]], "Output",
+ CellChangeTimes->{{3.51275375702041*^9, 3.512753805875401*^9}, 
+   3.512753992711938*^9, {3.512754068635016*^9, 3.5127541319903708`*^9}, 
+   3.512754279541655*^9, 3.51275431152785*^9, {3.5127543481590357`*^9, 
+   3.5127543627882023`*^9}, {3.5127543960001307`*^9, 3.512754453415472*^9}, 
+   3.512754502791627*^9, 3.512754776526195*^9, 3.512754974161701*^9, {
+   3.512755408160543*^9, 3.5127554126045427`*^9}, {3.512755450687933*^9, 
+   3.512755471068433*^9}, 3.526066770383885*^9}],
+
+Cell[BoxData["\<\"gurobi_mathlink.c: i686-apple-darwin10-gcc-4.2.1: \
+-lgurobi45: linker input file unused because linking not \
+done\\nGurobiML.tm.c: i686-apple-darwin10-gcc-4.2.1: -lgurobi45: linker input \
+file unused because linking not done\"\>"], "Output",
+ CellChangeTimes->{{3.51275375702041*^9, 3.512753805875401*^9}, 
+   3.512753992711938*^9, {3.512754068635016*^9, 3.5127541319903708`*^9}, 
+   3.512754279541655*^9, 3.51275431152785*^9, {3.5127543481590357`*^9, 
+   3.5127543627882023`*^9}, {3.5127543960001307`*^9, 3.512754453415472*^9}, 
+   3.512754502791627*^9, 3.512754776526195*^9, 3.512754974161701*^9, {
+   3.512755408160543*^9, 3.5127554126045427`*^9}, {3.512755450687933*^9, 
+   3.512755471068433*^9}, 3.5260667711844378`*^9}],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{"0.`", ",", 
+   RowBox[{"{", 
+    RowBox[{"0.`", ",", "0.`", ",", "0.`"}], "}"}]}], "}"}]], "Output",
+ CellChangeTimes->{{3.51275375702041*^9, 3.512753805875401*^9}, 
+   3.512753992711938*^9, {3.512754068635016*^9, 3.5127541319903708`*^9}, 
+   3.512754279541655*^9, 3.51275431152785*^9, {3.5127543481590357`*^9, 
+   3.5127543627882023`*^9}, {3.5127543960001307`*^9, 3.512754453415472*^9}, 
+   3.512754502791627*^9, 3.512754776526195*^9, 3.512754974161701*^9, {
+   3.512755408160543*^9, 3.5127554126045427`*^9}, {3.512755450687933*^9, 
+   3.512755471068433*^9}, 3.526066771230527*^9}]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]]
+},
+Evaluator->"Local2",
+WindowSize->{1920, 1152},
+WindowMargins->{{0, Automatic}, {Automatic, 0}},
+ShowSelection->True,
+FrontEndVersion->"8.0 for Mac OS X x86 (32-bit, 64-bit Kernel) (November 6, \
+2010)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[579, 22, 173, 2, 67, "Section"],
+Cell[755, 26, 189, 3, 27, "Input"],
+Cell[CellGroupData[{
+Cell[969, 33, 200, 3, 27, "Input"],
+Cell[1172, 38, 629, 11, 27, "Output"]
+}, Open  ]],
+Cell[1816, 52, 123, 3, 27, "Input"],
+Cell[CellGroupData[{
+Cell[1964, 59, 102, 1, 34, "Subsection"],
+Cell[CellGroupData[{
+Cell[2091, 64, 1250, 30, 88, "Input"],
+Cell[3344, 96, 492, 7, 36, "Print"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[3885, 109, 98, 1, 34, "Subsection"],
+Cell[3986, 112, 1094, 25, 58, "Input"],
+Cell[CellGroupData[{
+Cell[5105, 141, 200, 3, 27, "Input"],
+Cell[5308, 146, 604, 11, 27, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[5949, 162, 105, 1, 27, "Input"],
+Cell[6057, 165, 104, 1, 27, "Output"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[6210, 172, 103, 1, 34, "Subsection"],
+Cell[CellGroupData[{
+Cell[6338, 177, 113, 1, 24, "Subsubsection"],
+Cell[CellGroupData[{
+Cell[6476, 182, 902, 26, 73, "Input"],
+Cell[7381, 210, 886, 14, 27, "Output"],
+Cell[8270, 226, 967, 14, 126, "Print"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[9274, 245, 410, 12, 58, "Input"],
+Cell[9687, 259, 338, 7, 40, "Message"],
+Cell[10028, 268, 441, 7, 27, "Output"],
+Cell[10472, 277, 593, 9, 126, "Print"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[11102, 291, 592, 19, 58, "Input"],
+Cell[11697, 312, 361, 7, 27, "Output"],
+Cell[12061, 321, 454, 7, 126, "Print"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[12552, 333, 1213, 39, 118, "Input"],
+Cell[13768, 374, 284, 5, 27, "Output"],
+Cell[14055, 381, 422, 5, 186, "Print"],
+Cell[14480, 388, 317, 7, 40, "Message"],
+Cell[14800, 397, 214, 3, 27, "Output"],
+Cell[15017, 402, 418, 5, 186, "Print"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[15472, 412, 2050, 68, 148, "Input"],
+Cell[17525, 482, 323, 7, 27, "Output"],
+Cell[17851, 491, 444, 6, 186, "Print"],
+Cell[18298, 499, 361, 9, 27, "Output"],
+Cell[18662, 510, 442, 6, 186, "Print"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[19141, 521, 2291, 72, 148, "Input"],
+Cell[21435, 595, 382, 9, 27, "Output"],
+Cell[21820, 606, 472, 6, 216, "Print"],
+Cell[22295, 614, 440, 11, 27, "Output"],
+Cell[22738, 627, 464, 6, 216, "Print"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[23251, 639, 138, 3, 24, "Subsubsection"],
+Cell[CellGroupData[{
+Cell[23414, 646, 3455, 97, 253, "Input"],
+Cell[26872, 745, 699, 10, 43, "Output"],
+Cell[27574, 757, 594, 12, 27, "Output"],
+Cell[28171, 771, 525, 8, 126, "Print"],
+Cell[28699, 781, 594, 12, 27, "Output"],
+Cell[29296, 795, 545, 8, 156, "Print"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[29878, 808, 3190, 89, 223, "Input"],
+Cell[33071, 899, 635, 12, 27, "Output"],
+Cell[33709, 913, 408, 6, 186, "Print"]
+}, Open  ]],
+Cell[34132, 922, 5382, 94, 156, "Input",
+ Evaluatable->False],
+Cell[CellGroupData[{
+Cell[39539, 1020, 3122, 87, 268, "Input"],
+Cell[42664, 1109, 1027, 27, 45, "Output"],
+Cell[43694, 1138, 602, 14, 27, "Output"],
+Cell[44299, 1154, 571, 8, 43, "Output"],
+Cell[44873, 1164, 448, 9, 27, "Output"],
+Cell[45324, 1175, 489, 7, 156, "Print"],
+Cell[45816, 1184, 449, 9, 27, "Output"],
+Cell[46268, 1195, 514, 7, 186, "Print"]
+}, Open  ]],
+Cell[46797, 1205, 11543, 195, 195, "Input",
+ Evaluatable->False],
+Cell[CellGroupData[{
+Cell[58365, 1404, 2842, 76, 208, "Input"],
+Cell[61210, 1482, 1517, 38, 73, "Output"],
+Cell[62730, 1522, 903, 19, 27, "Output"],
+Cell[63636, 1543, 746, 10, 43, "Output"],
+Cell[64385, 1555, 622, 11, 27, "Output"]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]]
+}
+]
+*)
+
+(* End of internal cache information *)
