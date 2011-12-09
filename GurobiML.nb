@@ -1,22 +1,3 @@
-(* Content-type: application/vnd.wolfram.mathematica *)
-
-(*** Wolfram Notebook File ***)
-(* http://www.wolfram.com/nb *)
-
-(* CreatedBy='Mathematica 8.0' *)
-
-(*CacheID: 234*)
-(* Internal cache information:
-NotebookFileLineBreakTest
-NotebookFileLineBreakTest
-NotebookDataPosition[       157,          7]
-NotebookDataLength[     21624,        583]
-NotebookOptionsPosition[     20793,        551]
-NotebookOutlinePosition[     21183,        568]
-CellTagsIndexPosition[     21140,        565]
-WindowFrame->Normal*)
-
-(* Beginning of Notebook Content *)
 Notebook[{
 
 Cell[CellGroupData[{
@@ -183,6 +164,13 @@ _MatrixQ}).\>\""}], ";"}], "\n",
   ";"}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{
+   RowBox[{"GurobiSolve", "::", "objerror"}], "=", 
+   "\"\<Objective function `1` is wrongly specified. Needs to be either a \
+list of coefficients (LP/MIP), a matrix representing quadratic terms in \
+compressed sparse row format (QP), or both ({{_?NumberQ..}, \
+_MatrixQ}).\>\""}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{
    RowBox[{"GurobiSolve", "[", 
     RowBox[{
      RowBox[{"c", ":", 
@@ -223,14 +211,24 @@ _MatrixQ}).\>\""}], ";"}], "\n",
         RowBox[{
          RowBox[{"{", 
           RowBox[{
-           RowBox[{"_", "?", "NumberQ"}], ".."}], "}"}], "|", 
+           RowBox[{"(", 
+            RowBox[{
+             RowBox[{"_", "?", "NumberQ"}], "|", 
+             RowBox[{"-", "\[Infinity]"}], "|", "\[Infinity]"}], ")"}], 
+           ".."}], "}"}], "|", 
          RowBox[{"{", 
           RowBox[{
            RowBox[{"{", 
             RowBox[{
-             RowBox[{"_", "?", "NumberQ"}], ",", 
-             RowBox[{"_", "?", "NumberQ"}]}], "}"}], ".."}], "}"}]}], ")"}], 
-       ":", 
+             RowBox[{"(", 
+              RowBox[{
+               RowBox[{"_", "?", "NumberQ"}], "|", 
+               RowBox[{"-", "\[Infinity]"}], "|", "\[Infinity]"}], ")"}], ",", 
+             RowBox[{"(", 
+              RowBox[{
+               RowBox[{"_", "?", "NumberQ"}], "|", 
+               RowBox[{"-", "\[Infinity]"}], "|", "\[Infinity]"}], ")"}]}], 
+            "}"}], ".."}], "}"}]}], ")"}], ":", 
        RowBox[{"{", "}"}]}]}], ",", "\[IndentingNewLine]", 
      RowBox[{"dom", ":", 
       RowBox[{
@@ -333,6 +331,15 @@ _MatrixQ}).\>\""}], ";"}], "\n",
         RowBox[{"Print", "[", 
          RowBox[{"\"\<Senses: \>\"", ",", "senses"}], "]"}], ";"}], "*)"}], 
       "\[IndentingNewLine]", 
+      RowBox[{"lClean", "=", 
+       RowBox[{"l", "/.", 
+        RowBox[{"{", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"-", "\[Infinity]"}], "\[Rule]", 
+           RowBox[{"-", "10000"}]}], ",", 
+          RowBox[{"\[Infinity]", "\[Rule]", "10000"}]}], "}"}]}]}], ";", 
+      "\[IndentingNewLine]", 
       RowBox[{"Piecewise", "[", 
        RowBox[{
         RowBox[{"{", "\[IndentingNewLine]", 
@@ -346,7 +353,7 @@ _MatrixQ}).\>\""}], ";"}], "\n",
               RowBox[{
                RowBox[{"{", "}"}], ",", 
                RowBox[{"{", "}"}]}], "}"}]}], ",", 
-            RowBox[{"l", "\[Equal]", 
+            RowBox[{"lClean", "\[Equal]", 
              RowBox[{"{", "}"}]}]}], "}"}], ",", "\[IndentingNewLine]", 
           RowBox[{"{", 
            RowBox[{
@@ -354,10 +361,10 @@ _MatrixQ}).\>\""}], ";"}], "\n",
              RowBox[{"{", 
               RowBox[{"lb", ",", "ub"}], "}"}], "=", 
              RowBox[{"{", 
-              RowBox[{"l", ",", 
+              RowBox[{"lClean", ",", 
                RowBox[{"{", "}"}]}], "}"}]}], ",", 
             RowBox[{"MatchQ", "[", 
-             RowBox[{"l", ",", 
+             RowBox[{"lClean", ",", 
               RowBox[{"{", 
                RowBox[{
                 RowBox[{"_", "?", "NumberQ"}], ".."}], "}"}]}], "]"}]}], 
@@ -367,9 +374,9 @@ _MatrixQ}).\>\""}], ";"}], "\n",
             RowBox[{
              RowBox[{"{", 
               RowBox[{"lb", ",", "ub"}], "}"}], "=", 
-             RowBox[{"Transpose", "[", "l", "]"}]}], ",", 
+             RowBox[{"Transpose", "[", "lClean", "]"}]}], ",", 
             RowBox[{"MatchQ", "[", 
-             RowBox[{"l", ",", 
+             RowBox[{"lClean", ",", 
               RowBox[{"{", 
                RowBox[{
                 RowBox[{"{", 
@@ -379,8 +386,8 @@ _MatrixQ}).\>\""}], ";"}], "\n",
              "]"}]}], "}"}]}], "\[IndentingNewLine]", "}"}], ",", 
         RowBox[{"Message", "[", 
          RowBox[{
-          RowBox[{"GurobiSolve", "::", "bndserror"}], ",", "l"}], "]"}]}], 
-       "]"}], ";", "\[IndentingNewLine]", 
+          RowBox[{"GurobiSolve", "::", "bndserror"}], ",", "lClean"}], 
+         "]"}]}], "]"}], ";", "\[IndentingNewLine]", 
       RowBox[{"(*", 
        RowBox[{
         RowBox[{"Print", "[", 
@@ -393,7 +400,7 @@ _MatrixQ}).\>\""}], ";"}], "\n",
          RowBox[{
           RowBox[{"{", 
            RowBox[{
-            RowBox[{"procDom", "=", "\"\<\>\""}], ",", 
+            RowBox[{"procDom", "=", "\"\<NULL\>\""}], ",", 
             RowBox[{"dom", "\[Equal]", "Reals"}]}], "}"}], ",", 
           "\[IndentingNewLine]", 
           RowBox[{"{", 
@@ -510,27 +517,7 @@ _MatrixQ}).\>\""}], ";"}], "\n",
             RowBox[{"GurobiSolve", "::", "objerror"}], ",", "c"}], "]"}], ";", 
           RowBox[{"Abort", "[", "]"}], ";"}]}], "\[IndentingNewLine]", 
         "]"}]}]}]}], "\[IndentingNewLine]", "]"}]}], ";"}]}], "Input",
- InitializationGroup->True,
- CellChangeTimes->{{3.5103265769001827`*^9, 3.510326583017271*^9}, {
-   3.510327398738757*^9, 3.510327416976717*^9}, 3.510334539263418*^9, {
-   3.510335096876833*^9, 3.5103351345001287`*^9}, {3.510335202934353*^9, 
-   3.51033520964725*^9}, {3.510336406259515*^9, 3.510336409722645*^9}, {
-   3.511014416776716*^9, 3.511014424038962*^9}, {3.512831020415208*^9, 
-   3.512831027376616*^9}, 3.512837180563961*^9, {3.512838257533907*^9, 
-   3.512838263381106*^9}, {3.512916333161182*^9, 3.512916342413653*^9}, 
-   3.513626092966753*^9, {3.526066196461138*^9, 3.526066198744191*^9}, {
-   3.526820419557502*^9, 3.526820420340919*^9}, {3.526820531709552*^9, 
-   3.526820648680649*^9}, {3.526824129275083*^9, 3.526824252590406*^9}, {
-   3.526824491877348*^9, 3.526824519604299*^9}, {3.526824610271326*^9, 
-   3.526824613246859*^9}, {3.5268248098063183`*^9, 3.526824811914304*^9}, {
-   3.526825135746635*^9, 3.526825154317408*^9}, {3.52682522753992*^9, 
-   3.526825245147334*^9}, {3.526825281651882*^9, 3.526825283196192*^9}, {
-   3.526825315765192*^9, 3.526825370673719*^9}, {3.526825590001598*^9, 
-   3.526825599241778*^9}, {3.526825674795722*^9, 3.5268260266451263`*^9}, {
-   3.526826483295846*^9, 3.52682651333635*^9}, {3.526826806678693*^9, 
-   3.5268269483364067`*^9}, {3.52682706031558*^9, 3.526827062147379*^9}, {
-   3.526827175190967*^9, 3.5268271753254757`*^9}, {3.526827750198985*^9, 
-   3.526827750580496*^9}, {3.526827977963523*^9, 3.526827985026812*^9}}],
+ InitializationGroup->True],
 
 Cell[BoxData[
  RowBox[{
@@ -556,37 +543,3 @@ FrontEndVersion->"8.0 for Mac OS X x86 (32-bit, 64-bit Kernel) (November 6, \
 2010)",
 StyleDefinitions->"Default.nb"
 ]
-(* End of Notebook Content *)
-
-(* Internal cache information *)
-(*CellTagsOutline
-CellTagsIndex->{}
-*)
-(*CellTagsIndex
-CellTagsIndex->{}
-*)
-(*NotebookFileOutline
-Notebook[{
-Cell[CellGroupData[{
-Cell[579, 22, 172, 3, 67, "Section",
- InitializationGroup->True],
-Cell[754, 27, 675, 18, 73, "Input"],
-Cell[1432, 47, 329, 7, 27, "Input",
- InitializationGroup->True],
-Cell[1764, 56, 440, 8, 43, "Input"],
-Cell[2207, 66, 354, 8, 27, "Input"],
-Cell[2564, 76, 242, 6, 27, "Input"],
-Cell[2809, 84, 190, 4, 27, "Input",
- InitializationGroup->True],
-Cell[3002, 90, 17321, 442, 756, "Input",
- InitializationGroup->True],
-Cell[20326, 534, 279, 8, 27, "Input",
- InitializationGroup->True],
-Cell[20608, 544, 169, 4, 27, "Input",
- InitializationGroup->True]
-}, Open  ]]
-}
-]
-*)
-
-(* End of internal cache information *)

@@ -157,7 +157,14 @@ void solve(double *obj, long objlen, double *lb, long lblen, double *ub, long ub
     ub = NULL;
   }
 
-  error = GRBaddvars(model, objlen, 0, NULL, NULL, NULL, obj, lb, ub, vtype, NULL);
+
+  if(vtype == "NULL")
+  {
+    vtype = NULL;
+  }
+  
+  // error = GRBaddvars(model, objlen, 0, NULL, NULL, NULL, obj, lb, ub, vtype, NULL);
+  error = GRBaddvars(model, objlen, 0, NULL, NULL, NULL, obj, lb, ub, NULL, NULL);
   if (error) goto QUIT;
   
   error = GRBupdatemodel(model);
@@ -191,8 +198,8 @@ void solve(double *obj, long objlen, double *lb, long lblen, double *ub, long ub
   error = GRBupdatemodel(model);
   if (error) goto QUIT;
 
-  GRBwrite(model, "Blub.lp");
-  if (error) goto QUIT;
+  // GRBwrite(model, "/tmp/Blub.lp");
+  // if (error) goto QUIT;
 
   // GRBwrite(model, "Blub.mps");
   // if (error) goto QUIT;
@@ -205,8 +212,12 @@ void solve(double *obj, long objlen, double *lb, long lblen, double *ub, long ub
 
   error = GRBgetintattr(model, GRB_INT_ATTR_STATUS, &optimstatus);
   if (error) goto QUIT;
+
+  // GRBwrite(model, "/tmp/Blub2.lp");
+  // if (error) goto QUIT;
   
-  if (optimstatus == GRB_OPTIMAL) {
+  // if (optimstatus == GRB_OPTIMAL) {
+  if (1 == 1) {
     // error = GRBgetdblattr(model, GRB_DBL_ATTR_OBJVAL, &objval);
     // if (error) goto QUIT;
 
@@ -223,7 +234,7 @@ void solve(double *obj, long objlen, double *lb, long lblen, double *ub, long ub
     error = GRBcomputeIIS(model);
     if (error) goto QUIT;
 
-    error = GRBwrite(model, "ilpDump.ilp");
+    error = GRBwrite(model, "/tmp/ilpDump.ilp");
     if (error) goto QUIT;
     
   } else if (optimstatus == GRB_INFEASIBLE) {
@@ -231,7 +242,7 @@ void solve(double *obj, long objlen, double *lb, long lblen, double *ub, long ub
     error = GRBcomputeIIS(model);
     if (error) goto QUIT;
 
-    error = GRBwrite(model, "ilpDump.ilp");
+    error = GRBwrite(model, "/tmp/ilpDump.ilp");
     if (error) goto QUIT;
     
   } else {

@@ -51,7 +51,8 @@ GurobiSolve::rhserror="Righthand sides `1` are wrongly specified.";
 GurobiSolve::bndserror="Variable bounds `1` are wrongly specified.";
 GurobiSolve::domerror="Problem with domain specification `1`.";
 GurobiSolve::lowlevelmessage="Gurobi interface returned the following status: `1`.";
-GurobiSolve[c:({_?NumberQ..}|_?MatrixQ|{{_?NumberQ..},_?MatrixQ}),m_?MatrixQ,b:({_?NumberQ..}|{{_?NumberQ,(-1|-1.|0|0.|1|1.)}..}):{},l:({_?NumberQ..}|{{_?NumberQ,_?NumberQ}..}):{},
+GurobiSolve::objerror="Objective function `1` is wrongly specified. Needs to be either a list of coefficients (LP/MIP), a matrix representing quadratic terms in compressed sparse row format (QP), or both ({{_?NumberQ..}, _MatrixQ}).";
+GurobiSolve[c:({_?NumberQ..}|_?MatrixQ|{{_?NumberQ..},_?MatrixQ}),m_?MatrixQ,b:({_?NumberQ..}|{{_?NumberQ,(-1|-1.|0|0.|1|1.)}..}):{},l:({(_?NumberQ|-\[Infinity]|\[Infinity])..}|{{(_?NumberQ|-\[Infinity]|\[Infinity]),(_?NumberQ|-\[Infinity]|\[Infinity])}..}):{},
 dom:(Integers|Reals|{(Integers|Reals)..}):Reals]:=Module[{procRhs,procDom,lb,ub,senses,cbeg,cind,cval},
 {cbeg,cind,cval}=matrix2compressedSparseRow[m];
 senses="";
@@ -62,14 +63,15 @@ Piecewise[{
 },Message[GurobiSolve::rhserror,b]];
 (*Print["RHS: ",procRhs];
 Print["Senses: ",senses];*)
+lClean=l/.{-\[Infinity]->-10000,\[Infinity]->10000};
 Piecewise[{
-{{lb,ub}={{},{}},l=={}},
-{{lb,ub}={l,{}},MatchQ[l,{_?NumberQ..}]},
-{{lb,ub}=Transpose[l],MatchQ[l,{{_?NumberQ,_?NumberQ}..}]}
-},Message[GurobiSolve::bndserror,l]];
+{{lb,ub}={{},{}},lClean=={}},
+{{lb,ub}={lClean,{}},MatchQ[lClean,{_?NumberQ..}]},
+{{lb,ub}=Transpose[lClean],MatchQ[lClean,{{_?NumberQ,_?NumberQ}..}]}
+},Message[GurobiSolve::bndserror,lClean]];
 (*Print["Lower bounds: ",lb," Upper bounds: ",ub];*)
 Piecewise[{
-{procDom="",dom==Reals},
+{procDom="NULL",dom==Reals},
 {procDom=StringJoin[Sequence@@Table["I",{Length[c]}]],dom==Integers},
 {procDom=StringJoin[Sequence@@(dom/.{Integers->"I",Reals->"C"})],MatchQ[dom,{(Integers|Reals)..}]}
 },Message[GurobiSolve::domerror,dom]];
