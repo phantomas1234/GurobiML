@@ -60,8 +60,9 @@ GurobiSolve::rhserror="Righthand sides `1` are wrongly specified.";
 GurobiSolve::bndserror="Variable bounds `1` are wrongly specified.";
 GurobiSolve::domerror="Problem with domain specification `1`.";
 GurobiSolve::lowlevelmessage="Gurobi interface returned the following status: `1`.";
+Options[GurobiSolve]={"Infinity"->1.*^10};
 GurobiSolve[c:({_?NumberQ..}|_?MatrixQ|{{_?NumberQ..},_?MatrixQ}),m_?MatrixQ,b:({_?NumberQ..}|{{_?NumberQ,(-1|-1.|0|0.|1|1.)}..}):{},l:({(_?NumberQ|-\[Infinity]|\[Infinity])..}|{{(_?NumberQ|-\[Infinity]|\[Infinity]),(_?NumberQ|-\[Infinity]|\[Infinity])}..}):{},
-dom:(Integers|Reals|{(Integers|Reals)..}):Reals]:=Module[{procRhs,procDom,lb,ub,senses,cbeg,cind,cval,lClean},
+dom:(Integers|Reals|{(Integers|Reals)..}):Reals,opts:OptionsPattern[]]:=Module[{procRhs,procDom,lb,ub,senses,cbeg,cind,cval,lClean},
 {cbeg,cind,cval}=matrix2compressedSparseRow[m];
 senses="";
 Piecewise[{
@@ -71,7 +72,7 @@ Piecewise[{
 },Message[GurobiSolve::rhserror,b]];
 (*Print["RHS: ",procRhs];
 Print["Senses: ",senses];*)
-lClean=l/.{-\[Infinity]->-10000,\[Infinity]->10000};
+lClean=l/.{-\[Infinity]->-N@OptionValue["Infinity"],\[Infinity]->N@OptionValue["Infinity"]};
 Piecewise[{
 {{lb,ub}={{},{}},lClean=={}},
 {{lb,ub}={lClean,{}},MatchQ[lClean,{_?NumberQ..}]},
@@ -94,7 +95,7 @@ GurobiML`GurobiML`GurobiSolveLowLevel[c,lb,ub,cbeg, cind, N@cval,procRhs,senses,
 GurobiML`GurobiML`GurobiSolveLowLevel[c[[1]],lb,ub,cbeg, cind, N@cval,procRhs,senses,procDom,Sequence@@matrix2sparse[c[[2]]]],
 _,
 Message[GurobiSolve::objerror,c];Abort[];
-]
+]/.{-N@OptionValue["Infinity"]->-\[Infinity],N@OptionValue["Infinity"]->\[Infinity]}
 ];
 def:GurobiSolve[___]:=(Message[GurobiML::badargs,GurobiSolve,Defer@def];Abort[])
 Protect[GurobiSolve];
@@ -105,8 +106,9 @@ GurobiSolveMinimaMaxima::rhserror="Righthand sides `1` are wrongly specified.";
 GurobiSolveMinimaMaxima::bndserror="Variable bounds `1` are wrongly specified.";
 GurobiSolveMinimaMaxima::domerror="Problem with domain specification `1`.";
 GurobiSolveMinimaMaxima::lowlevelmessage="Gurobi interface returned the following status: `1`.";
+Options[GurobiSolveMinimaMaxima]={"Infinity"->1.*^10};
 GurobiSolveMinimaMaxima[m_?MatrixQ,b:({_?NumberQ..}|{{_?NumberQ,(-1|-1.|0|0.|1|1.)}..}):{},l:({(_?NumberQ|-\[Infinity]|\[Infinity])..}|{{(_?NumberQ|-\[Infinity]|\[Infinity]),(_?NumberQ|-\[Infinity]|\[Infinity])}..}):{},
-dom:(Integers|Reals|{(Integers|Reals)..}):Reals]:=Module[{procRhs,procDom,lb,ub,senses,cbeg,cind,cval,c,lClean},
+dom:(Integers|Reals|{(Integers|Reals)..}):Reals,opts:OptionsPattern[]]:=Module[{procRhs,procDom,lb,ub,senses,cbeg,cind,cval,c,lClean},
 c=Table[0.,{Dimensions[m][[2]]}];
 {cbeg,cind,cval}=matrix2compressedSparseRow[m];
 senses="";
@@ -117,7 +119,7 @@ Piecewise[{
 },Message[GurobiSolveMinimaMaxima::rhserror,b]];
 (*Print["RHS: ",procRhs];
 Print["Senses: ",senses];*)
-lClean=l/.{-\[Infinity]->-10000,\[Infinity]->10000};
+lClean=l/.{-\[Infinity]->-N@OptionValue["Infinity"],\[Infinity]->N@OptionValue["Infinity"]};
 Piecewise[{
 {{lb,ub}={{},{}},lClean=={}},
 {{lb,ub}={lClean,{}},MatchQ[lClean,{_?NumberQ..}]},
@@ -130,7 +132,7 @@ Piecewise[{
 {procDom=StringJoin[Sequence@@(dom/.{Integers->"I",Reals->"C"})],MatchQ[dom,{(Integers|Reals)..}]}
 },Message[GurobiSolveMinimaMaxima::domerror,dom]];
 (*GurobiML`GurobiML`GurobiSolveLowLevel[c,lb,ub,cbeg, cind, N@cval,procRhs,senses,procDom][[2]]*)
-GurobiML`GurobiML`GurobiSolveMinimaMaximaLowLevel[c,lb,ub,cbeg, cind, N@cval,procRhs,senses,procDom]
+GurobiML`GurobiML`GurobiSolveMinimaMaximaLowLevel[c,lb,ub,cbeg, cind, N@cval,procRhs,senses,procDom]/.{-N@OptionValue["Infinity"]->-\[Infinity],N@OptionValue["Infinity"]->\[Infinity]}
 ];
 def:GurobiSolveMinimaMaxima[___]:=(Message[GurobiML::badargs,GurobiSolveMinimaMaxima,Defer@def];Abort[])
 Protect[GurobiSolveMinimaMaxima];
