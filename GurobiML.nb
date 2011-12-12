@@ -65,9 +65,20 @@ Cell[BoxData[
 
 Cell[BoxData[
  RowBox[{
+  RowBox[{
+   RowBox[{"GurobiSolveMinimaMaxima", "::", "usage"}], "=", "\"\<...\>\""}], 
+  ";"}]], "Input"],
+
+Cell[BoxData[
+ RowBox[{
   RowBox[{"Begin", "[", "\"\<`Private`\>\"", "]"}], ";"}]], "Input",
  InitializationGroup->True,
  CellChangeTimes->{{3.5103273060361433`*^9, 3.5103273060373793`*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"GurobiML", "::", "badargs"}], "=", 
+  "\"\<There is no definition for '``' applicable to ``.\>\""}]], "Input"],
 
 Cell[BoxData[{
  RowBox[{
@@ -134,7 +145,13 @@ Cell[BoxData[{
       RowBox[{"SparseArray", "[", "mat", "]"}], "]"}], "[", 
      RowBox[{"[", 
       RowBox[{";;", 
-       RowBox[{"-", "2"}]}], "]"}], "]"}]}], "]"}]}], "\[IndentingNewLine]", 
+       RowBox[{"-", "2"}]}], "]"}], "]"}]}], "]"}]}]}], "Input",
+ InitializationGroup->True],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"Unprotect", "[", "GurobiSolve", "]"}], 
+  ";"}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{
    RowBox[{"GurobiSolve", "::", "objerror"}], "=", 
@@ -162,13 +179,6 @@ _MatrixQ}).\>\""}], ";"}], "\n",
    RowBox[{"GurobiSolve", "::", "lowlevelmessage"}], "=", 
    "\"\<Gurobi interface returned the following status: `1`.\>\""}], 
   ";"}], "\[IndentingNewLine]", 
- RowBox[{
-  RowBox[{
-   RowBox[{"GurobiSolve", "::", "objerror"}], "=", 
-   "\"\<Objective function `1` is wrongly specified. Needs to be either a \
-list of coefficients (LP/MIP), a matrix representing quadratic terms in \
-compressed sparse row format (QP), or both ({{_?NumberQ..}, \
-_MatrixQ}).\>\""}], ";"}], "\n", 
  RowBox[{
   RowBox[{
    RowBox[{"GurobiSolve", "[", 
@@ -244,8 +254,8 @@ _MatrixQ}).\>\""}], ";"}], "\n",
      RowBox[{"{", 
       RowBox[{
       "procRhs", ",", "procDom", ",", "lb", ",", "ub", ",", "senses", ",", 
-       "cbeg", ",", "cind", ",", "cval"}], "}"}], ",", "\[IndentingNewLine]", 
-     
+       "cbeg", ",", "cind", ",", "cval", ",", "lClean"}], "}"}], ",", 
+     "\[IndentingNewLine]", 
      RowBox[{
       RowBox[{
        RowBox[{"{", 
@@ -516,8 +526,336 @@ _MatrixQ}).\>\""}], ";"}], "\n",
            RowBox[{
             RowBox[{"GurobiSolve", "::", "objerror"}], ",", "c"}], "]"}], ";", 
           RowBox[{"Abort", "[", "]"}], ";"}]}], "\[IndentingNewLine]", 
-        "]"}]}]}]}], "\[IndentingNewLine]", "]"}]}], ";"}]}], "Input",
- InitializationGroup->True],
+        "]"}]}]}]}], "\[IndentingNewLine]", "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"def", ":", 
+   RowBox[{"GurobiSolve", "[", "___", "]"}]}], ":=", 
+  RowBox[{"(", 
+   RowBox[{
+    RowBox[{"Message", "[", 
+     RowBox[{
+      RowBox[{"GurobiML", "::", "badargs"}], ",", "GurobiSolve", ",", 
+      RowBox[{"Defer", "@", "def"}]}], "]"}], ";", 
+    RowBox[{"Abort", "[", "]"}]}], ")"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Protect", "[", "GurobiSolve", "]"}], ";"}]}], "Input"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"Unprotect", "[", "GurobiSolveMinimaMaxima", "]"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"GurobiSolveMinimaMaxima", "::", "rhserror"}], "=", 
+   "\"\<Righthand sides `1` are wrongly specified.\>\""}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"GurobiSolveMinimaMaxima", "::", "bndserror"}], "=", 
+   "\"\<Variable bounds `1` are wrongly specified.\>\""}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"GurobiSolveMinimaMaxima", "::", "domerror"}], "=", 
+   "\"\<Problem with domain specification `1`.\>\""}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"GurobiSolveMinimaMaxima", "::", "lowlevelmessage"}], "=", 
+   "\"\<Gurobi interface returned the following status: `1`.\>\""}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"GurobiSolveMinimaMaxima", "[", 
+    RowBox[{
+     RowBox[{"m_", "?", "MatrixQ"}], ",", 
+     RowBox[{"b", ":", 
+      RowBox[{
+       RowBox[{"(", 
+        RowBox[{
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"_", "?", "NumberQ"}], ".."}], "}"}], "|", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"{", 
+            RowBox[{
+             RowBox[{"_", "?", "NumberQ"}], ",", 
+             RowBox[{"(", 
+              RowBox[{
+               RowBox[{"-", "1"}], "|", 
+               RowBox[{"-", "1."}], "|", "0", "|", "0.", "|", "1", "|", 
+               "1."}], ")"}]}], "}"}], ".."}], "}"}]}], ")"}], ":", 
+       RowBox[{"{", "}"}]}]}], ",", 
+     RowBox[{"l", ":", 
+      RowBox[{
+       RowBox[{"(", 
+        RowBox[{
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"(", 
+            RowBox[{
+             RowBox[{"_", "?", "NumberQ"}], "|", 
+             RowBox[{"-", "\[Infinity]"}], "|", "\[Infinity]"}], ")"}], 
+           ".."}], "}"}], "|", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"{", 
+            RowBox[{
+             RowBox[{"(", 
+              RowBox[{
+               RowBox[{"_", "?", "NumberQ"}], "|", 
+               RowBox[{"-", "\[Infinity]"}], "|", "\[Infinity]"}], ")"}], ",", 
+             RowBox[{"(", 
+              RowBox[{
+               RowBox[{"_", "?", "NumberQ"}], "|", 
+               RowBox[{"-", "\[Infinity]"}], "|", "\[Infinity]"}], ")"}]}], 
+            "}"}], ".."}], "}"}]}], ")"}], ":", 
+       RowBox[{"{", "}"}]}]}], ",", "\[IndentingNewLine]", 
+     RowBox[{"dom", ":", 
+      RowBox[{
+       RowBox[{"(", 
+        RowBox[{"Integers", "|", "Reals", "|", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"(", 
+            RowBox[{"Integers", "|", "Reals"}], ")"}], ".."}], "}"}]}], ")"}],
+        ":", "Reals"}]}]}], "]"}], ":=", 
+   RowBox[{"Module", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+      "procRhs", ",", "procDom", ",", "lb", ",", "ub", ",", "senses", ",", 
+       "cbeg", ",", "cind", ",", "cval", ",", "c", ",", "lClean"}], "}"}], 
+     ",", "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{"c", "=", 
+       RowBox[{"Table", "[", 
+        RowBox[{"0.", ",", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"Dimensions", "[", "m", "]"}], "[", 
+           RowBox[{"[", "2", "]"}], "]"}], "}"}]}], "]"}]}], ";", 
+      "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"cbeg", ",", "cind", ",", "cval"}], "}"}], "=", 
+       RowBox[{"matrix2compressedSparseRow", "[", "m", "]"}]}], ";", 
+      "\[IndentingNewLine]", 
+      RowBox[{"senses", "=", "\"\<\>\""}], ";", "\[IndentingNewLine]", 
+      RowBox[{"Piecewise", "[", 
+       RowBox[{
+        RowBox[{"{", "\[IndentingNewLine]", 
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{"procRhs", "=", 
+             RowBox[{"{", "}"}]}], ",", 
+            RowBox[{"b", "\[Equal]", 
+             RowBox[{"{", "}"}]}]}], "}"}], ",", "\[IndentingNewLine]", 
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{"procRhs", "=", "b"}], ",", 
+            RowBox[{"MatchQ", "[", 
+             RowBox[{"b", ",", 
+              RowBox[{"{", 
+               RowBox[{
+                RowBox[{"_", "?", "NumberQ"}], ".."}], "}"}]}], "]"}]}], 
+           "}"}], ",", "\[IndentingNewLine]", 
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{
+             RowBox[{"{", 
+              RowBox[{"procRhs", ",", "senses"}], "}"}], "=", 
+             RowBox[{"{", 
+              RowBox[{
+               RowBox[{"b", "[", 
+                RowBox[{"[", 
+                 RowBox[{"All", ",", "1"}], "]"}], "]"}], ",", 
+               RowBox[{"StringJoin", "[", 
+                RowBox[{"Sequence", "@@", 
+                 RowBox[{"(", 
+                  RowBox[{
+                   RowBox[{"b", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"All", ",", "2"}], "]"}], "]"}], "/.", 
+                   RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"(", 
+                    RowBox[{"0", "|", "0."}], ")"}], "\[Rule]", "\"\<=\>\""}],
+                     ",", 
+                    RowBox[{
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{"-", "1"}], "|", 
+                    RowBox[{"-", "1."}]}], ")"}], "\[Rule]", "\"\<<\>\""}], 
+                    ",", 
+                    RowBox[{
+                    RowBox[{"(", 
+                    RowBox[{"1", "|", "1."}], ")"}], "\[Rule]", 
+                    "\"\<>\>\""}]}], "}"}]}], ")"}]}], "]"}]}], "}"}]}], ",", 
+            
+            RowBox[{"MatchQ", "[", 
+             RowBox[{"b", ",", 
+              RowBox[{"{", 
+               RowBox[{
+                RowBox[{"{", 
+                 RowBox[{
+                  RowBox[{"_", "?", "NumberQ"}], ",", 
+                  RowBox[{"(", 
+                   RowBox[{
+                    RowBox[{"-", "1"}], "|", 
+                    RowBox[{"-", "1."}], "|", "0", "|", "0.", "|", "1", "|", 
+                    "1."}], ")"}]}], "}"}], ".."}], "}"}]}], "]"}]}], "}"}]}],
+          "\[IndentingNewLine]", "}"}], ",", 
+        RowBox[{"Message", "[", 
+         RowBox[{
+          RowBox[{"GurobiSolveMinimaMaxima", "::", "rhserror"}], ",", "b"}], 
+         "]"}]}], "]"}], ";", "\[IndentingNewLine]", 
+      RowBox[{"(*", 
+       RowBox[{
+        RowBox[{"Print", "[", 
+         RowBox[{"\"\<RHS: \>\"", ",", "procRhs"}], "]"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"Print", "[", 
+         RowBox[{"\"\<Senses: \>\"", ",", "senses"}], "]"}], ";"}], "*)"}], 
+      "\[IndentingNewLine]", 
+      RowBox[{"lClean", "=", 
+       RowBox[{"l", "/.", 
+        RowBox[{"{", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"-", "\[Infinity]"}], "\[Rule]", 
+           RowBox[{"-", "10000"}]}], ",", 
+          RowBox[{"\[Infinity]", "\[Rule]", "10000"}]}], "}"}]}]}], ";", 
+      "\[IndentingNewLine]", 
+      RowBox[{"Piecewise", "[", 
+       RowBox[{
+        RowBox[{"{", "\[IndentingNewLine]", 
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{
+             RowBox[{"{", 
+              RowBox[{"lb", ",", "ub"}], "}"}], "=", 
+             RowBox[{"{", 
+              RowBox[{
+               RowBox[{"{", "}"}], ",", 
+               RowBox[{"{", "}"}]}], "}"}]}], ",", 
+            RowBox[{"lClean", "\[Equal]", 
+             RowBox[{"{", "}"}]}]}], "}"}], ",", "\[IndentingNewLine]", 
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{
+             RowBox[{"{", 
+              RowBox[{"lb", ",", "ub"}], "}"}], "=", 
+             RowBox[{"{", 
+              RowBox[{"lClean", ",", 
+               RowBox[{"{", "}"}]}], "}"}]}], ",", 
+            RowBox[{"MatchQ", "[", 
+             RowBox[{"lClean", ",", 
+              RowBox[{"{", 
+               RowBox[{
+                RowBox[{"_", "?", "NumberQ"}], ".."}], "}"}]}], "]"}]}], 
+           "}"}], ",", "\[IndentingNewLine]", 
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{
+             RowBox[{"{", 
+              RowBox[{"lb", ",", "ub"}], "}"}], "=", 
+             RowBox[{"Transpose", "[", "lClean", "]"}]}], ",", 
+            RowBox[{"MatchQ", "[", 
+             RowBox[{"lClean", ",", 
+              RowBox[{"{", 
+               RowBox[{
+                RowBox[{"{", 
+                 RowBox[{
+                  RowBox[{"_", "?", "NumberQ"}], ",", 
+                  RowBox[{"_", "?", "NumberQ"}]}], "}"}], ".."}], "}"}]}], 
+             "]"}]}], "}"}]}], "\[IndentingNewLine]", "}"}], ",", 
+        RowBox[{"Message", "[", 
+         RowBox[{
+          RowBox[{"GurobiSolveMinimaMaxima", "::", "bndserror"}], ",", 
+          "lClean"}], "]"}]}], "]"}], ";", "\[IndentingNewLine]", 
+      RowBox[{"(*", 
+       RowBox[{
+        RowBox[{"Print", "[", 
+         RowBox[{
+         "\"\<Lower bounds: \>\"", ",", "lb", ",", "\"\< Upper bounds: \>\"", 
+          ",", "ub"}], "]"}], ";"}], "*)"}], "\[IndentingNewLine]", 
+      RowBox[{"Piecewise", "[", 
+       RowBox[{
+        RowBox[{"{", "\[IndentingNewLine]", 
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{"procDom", "=", "\"\<NULL\>\""}], ",", 
+            RowBox[{"dom", "\[Equal]", "Reals"}]}], "}"}], ",", 
+          "\[IndentingNewLine]", 
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{"procDom", "=", 
+             RowBox[{"StringJoin", "[", 
+              RowBox[{"Sequence", "@@", 
+               RowBox[{"Table", "[", 
+                RowBox[{"\"\<I\>\"", ",", 
+                 RowBox[{"{", 
+                  RowBox[{"Length", "[", "c", "]"}], "}"}]}], "]"}]}], 
+              "]"}]}], ",", 
+            RowBox[{"dom", "\[Equal]", "Integers"}]}], "}"}], ",", 
+          "\[IndentingNewLine]", 
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{"procDom", "=", 
+             RowBox[{"StringJoin", "[", 
+              RowBox[{"Sequence", "@@", 
+               RowBox[{"(", 
+                RowBox[{"dom", "/.", 
+                 RowBox[{"{", 
+                  RowBox[{
+                   RowBox[{"Integers", "\[Rule]", "\"\<I\>\""}], ",", 
+                   RowBox[{"Reals", "\[Rule]", "\"\<C\>\""}]}], "}"}]}], 
+                ")"}]}], "]"}]}], ",", 
+            RowBox[{"MatchQ", "[", 
+             RowBox[{"dom", ",", 
+              RowBox[{"{", 
+               RowBox[{
+                RowBox[{"(", 
+                 RowBox[{"Integers", "|", "Reals"}], ")"}], ".."}], "}"}]}], 
+             "]"}]}], "}"}]}], "\[IndentingNewLine]", "}"}], ",", 
+        RowBox[{"Message", "[", 
+         RowBox[{
+          RowBox[{"GurobiSolveMinimaMaxima", "::", "domerror"}], ",", "dom"}],
+          "]"}]}], "]"}], ";", "\[IndentingNewLine]", 
+      RowBox[{"(*", 
+       RowBox[{
+        RowBox[{"GurobiML`GurobiML`GurobiSolveLowLevel", "[", 
+         RowBox[{
+         "c", ",", "lb", ",", "ub", ",", "cbeg", ",", " ", "cind", ",", " ", 
+          RowBox[{"N", "@", "cval"}], ",", "procRhs", ",", "senses", ",", 
+          "procDom"}], "]"}], "[", 
+        RowBox[{"[", "2", "]"}], "]"}], "*)"}], "\[IndentingNewLine]", 
+      RowBox[{"GurobiML`GurobiML`GurobiSolveMinimaMaximaLowLevel", "[", 
+       RowBox[{
+       "c", ",", "lb", ",", "ub", ",", "cbeg", ",", " ", "cind", ",", " ", 
+        RowBox[{"N", "@", "cval"}], ",", "procRhs", ",", "senses", ",", 
+        "procDom"}], "]"}]}]}], "\[IndentingNewLine]", "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"def", ":", 
+   RowBox[{"GurobiSolveMinimaMaxima", "[", "___", "]"}]}], ":=", 
+  RowBox[{"(", 
+   RowBox[{
+    RowBox[{"Message", "[", 
+     RowBox[{
+      RowBox[{"GurobiML", "::", "badargs"}], ",", "GurobiSolveMinimaMaxima", 
+      ",", 
+      RowBox[{"Defer", "@", "def"}]}], "]"}], ";", 
+    RowBox[{"Abort", "[", "]"}]}], ")"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Protect", "[", "GurobiSolveMinimaMaxima", "]"}], ";"}]}], "Input"],
 
 Cell[BoxData[
  RowBox[{
@@ -543,3 +881,4 @@ FrontEndVersion->"8.0 for Mac OS X x86 (32-bit, 64-bit Kernel) (November 6, \
 2010)",
 StyleDefinitions->"Default.nb"
 ]
+

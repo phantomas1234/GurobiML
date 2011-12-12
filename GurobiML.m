@@ -37,7 +37,13 @@ matrix2compressedSparseRow::usage="matrix2compressedSparseRow[matrix] translates
 matrix2sparse::usage="matrix2sparse[matrix] returns rowID, colID, Values ...";
 
 
+GurobiSolveMinimaMaxima::usage="...";
+
+
 Begin["`Private`"];
+
+
+GurobiML::badargs="There is no definition for '``' applicable to ``."
 
 
 matrix2compressedSparseRow[mat_?MatrixQ]:=Module[{rind,cind,cval,cbeg},
@@ -46,14 +52,16 @@ cbeg=Prepend[Accumulate[Tally[rind][[All,2]]][[;;-2]],0];
 {cbeg,cind-1,cval}
 ];
 matrix2sparse[mat_?MatrixQ]:=Transpose[Append[#[[1]]-1,#[[2]]]&/@ArrayRules[SparseArray[mat]][[;;-2]]]
+
+
+Unprotect[GurobiSolve];
 GurobiSolve::objerror="Objective function `1` is wrongly specified. Needs to be either a list of coefficients (LP/MIP), a matrix representing quadratic terms in compressed sparse row format (QP), or both ({{_?NumberQ..}, _MatrixQ}).";
 GurobiSolve::rhserror="Righthand sides `1` are wrongly specified.";
 GurobiSolve::bndserror="Variable bounds `1` are wrongly specified.";
 GurobiSolve::domerror="Problem with domain specification `1`.";
 GurobiSolve::lowlevelmessage="Gurobi interface returned the following status: `1`.";
-GurobiSolve::objerror="Objective function `1` is wrongly specified. Needs to be either a list of coefficients (LP/MIP), a matrix representing quadratic terms in compressed sparse row format (QP), or both ({{_?NumberQ..}, _MatrixQ}).";
 GurobiSolve[c:({_?NumberQ..}|_?MatrixQ|{{_?NumberQ..},_?MatrixQ}),m_?MatrixQ,b:({_?NumberQ..}|{{_?NumberQ,(-1|-1.|0|0.|1|1.)}..}):{},l:({(_?NumberQ|-\[Infinity]|\[Infinity])..}|{{(_?NumberQ|-\[Infinity]|\[Infinity]),(_?NumberQ|-\[Infinity]|\[Infinity])}..}):{},
-dom:(Integers|Reals|{(Integers|Reals)..}):Reals]:=Module[{procRhs,procDom,lb,ub,senses,cbeg,cind,cval},
+dom:(Integers|Reals|{(Integers|Reals)..}):Reals]:=Module[{procRhs,procDom,lb,ub,senses,cbeg,cind,cval,lClean},
 {cbeg,cind,cval}=matrix2compressedSparseRow[m];
 senses="";
 Piecewise[{
@@ -88,6 +96,44 @@ _,
 Message[GurobiSolve::objerror,c];Abort[];
 ]
 ];
+def:GurobiSolve[___]:=(Message[GurobiML::badargs,GurobiSolve,Defer@def];Abort[])
+Protect[GurobiSolve];
+
+
+Unprotect[GurobiSolveMinimaMaxima];
+GurobiSolveMinimaMaxima::rhserror="Righthand sides `1` are wrongly specified.";
+GurobiSolveMinimaMaxima::bndserror="Variable bounds `1` are wrongly specified.";
+GurobiSolveMinimaMaxima::domerror="Problem with domain specification `1`.";
+GurobiSolveMinimaMaxima::lowlevelmessage="Gurobi interface returned the following status: `1`.";
+GurobiSolveMinimaMaxima[m_?MatrixQ,b:({_?NumberQ..}|{{_?NumberQ,(-1|-1.|0|0.|1|1.)}..}):{},l:({(_?NumberQ|-\[Infinity]|\[Infinity])..}|{{(_?NumberQ|-\[Infinity]|\[Infinity]),(_?NumberQ|-\[Infinity]|\[Infinity])}..}):{},
+dom:(Integers|Reals|{(Integers|Reals)..}):Reals]:=Module[{procRhs,procDom,lb,ub,senses,cbeg,cind,cval,c,lClean},
+c=Table[0.,{Dimensions[m][[2]]}];
+{cbeg,cind,cval}=matrix2compressedSparseRow[m];
+senses="";
+Piecewise[{
+{procRhs={},b=={}},
+{procRhs=b,MatchQ[b,{_?NumberQ..}]},
+{{procRhs,senses}={b[[All,1]],StringJoin[Sequence@@(b[[All,2]]/.{(0|0.)->"=",(-1|-1.)->"<",(1|1.)->">"})]},MatchQ[b,{{_?NumberQ,(-1|-1.|0|0.|1|1.)}..}]}
+},Message[GurobiSolveMinimaMaxima::rhserror,b]];
+(*Print["RHS: ",procRhs];
+Print["Senses: ",senses];*)
+lClean=l/.{-\[Infinity]->-10000,\[Infinity]->10000};
+Piecewise[{
+{{lb,ub}={{},{}},lClean=={}},
+{{lb,ub}={lClean,{}},MatchQ[lClean,{_?NumberQ..}]},
+{{lb,ub}=Transpose[lClean],MatchQ[lClean,{{_?NumberQ,_?NumberQ}..}]}
+},Message[GurobiSolveMinimaMaxima::bndserror,lClean]];
+(*Print["Lower bounds: ",lb," Upper bounds: ",ub];*)
+Piecewise[{
+{procDom="NULL",dom==Reals},
+{procDom=StringJoin[Sequence@@Table["I",{Length[c]}]],dom==Integers},
+{procDom=StringJoin[Sequence@@(dom/.{Integers->"I",Reals->"C"})],MatchQ[dom,{(Integers|Reals)..}]}
+},Message[GurobiSolveMinimaMaxima::domerror,dom]];
+(*GurobiML`GurobiML`GurobiSolveLowLevel[c,lb,ub,cbeg, cind, N@cval,procRhs,senses,procDom][[2]]*)
+GurobiML`GurobiML`GurobiSolveMinimaMaximaLowLevel[c,lb,ub,cbeg, cind, N@cval,procRhs,senses,procDom]
+];
+def:GurobiSolveMinimaMaxima[___]:=(Message[GurobiML::badargs,GurobiSolveMinimaMaxima,Defer@def];Abort[])
+Protect[GurobiSolveMinimaMaxima];
 
 
 End[];(*End `Private` Context.*)
