@@ -387,13 +387,41 @@ void calcMinMaxForVariables(double *obj, long objlen, double *lb, long lblen, do
       min[i] = objval;
       // min[i] = 12.;
     } else if (optimstatus == GRB_INF_OR_UNBD) {
-        // MLPutString(stdlink, (const char *) "Model is infeasible or unbounded\n");
-        // printf("Inf objective");
-        min[i] = 666.;
+        error = GRBresetmodel(model);
+        if (error) goto QUIT;
+
+        error = GRBoptimize(model);
+        if (error) goto QUIT;
+
+        error = GRBgetintattr(model, GRB_INT_ATTR_STATUS, &optimstatus);
+        if (error) goto QUIT;
+
+        if (optimstatus == GRB_OPTIMAL) { 
+          error = GRBgetdblattr(model, GRB_DBL_ATTR_OBJVAL, &objval);
+          if (error) goto QUIT;
+          min[i] = objval;
+        } else {
+          min[i] = 6666.;
+        }
       } else if (optimstatus == GRB_INFEASIBLE) {
-        // printf("Inf objective");
-        // MLPutString(stdlink, (const char *) "Model is infeasible\n");
-        min[i] = 667.;
+        error = GRBresetmodel(model);
+        if (error) goto QUIT;
+
+        error = GRBoptimize(model);
+        if (error) goto QUIT;
+
+        error = GRBgetintattr(model, GRB_INT_ATTR_STATUS, &optimstatus);
+        if (error) goto QUIT;
+
+        if (optimstatus == GRB_OPTIMAL) { 
+          error = GRBgetdblattr(model, GRB_DBL_ATTR_OBJVAL, &objval);
+          if (error) goto QUIT;
+          min[i] = objval;
+        } else {
+          error = GRBwrite(model, "/tmp/model.ilp");
+          if (error) goto QUIT;
+          min[i] = 6667.;
+        }
       }
   
     // Maximization
@@ -420,15 +448,43 @@ void calcMinMaxForVariables(double *obj, long objlen, double *lb, long lblen, do
       if (error) goto QUIT;
       max[i] = -1*objval;
       // min[i] = 12.;
-    } else if (optimstatus == GRB_INF_OR_UNBD) {
-        // MLPutString(stdlink, (const char *) "Model is infeasible or unbounded\n");
-        // printf("Inf objective");
-        max[i] = 666.;
-      } else if (optimstatus == GRB_INFEASIBLE) {
-        // printf("Inf objective");
-        // MLPutString(stdlink, (const char *) "Model is infeasible\n");
-        max[i] = 667.;
-      }
+    } else if (optimstatus == GRB_INF_OR_UNBD)   {
+          error = GRBresetmodel(model);
+          if (error) goto QUIT;
+
+          error = GRBoptimize(model);
+          if (error) goto QUIT;
+
+          error = GRBgetintattr(model, GRB_INT_ATTR_STATUS, &optimstatus);
+          if (error) goto QUIT;
+
+          if (optimstatus == GRB_OPTIMAL) { 
+            error = GRBgetdblattr(model, GRB_DBL_ATTR_OBJVAL, &objval);
+            if (error) goto QUIT;
+            min[i] = -1*objval;
+          } else {
+            min[i] = 6666.;
+          }
+        } else if (optimstatus == GRB_INFEASIBLE)   {
+          error = GRBresetmodel(model);
+          if (error) goto QUIT;
+
+          error = GRBoptimize(model);
+          if (error) goto QUIT;
+
+          error = GRBgetintattr(model, GRB_INT_ATTR_STATUS, &optimstatus);
+          if (error) goto QUIT;
+
+          if (optimstatus == GRB_OPTIMAL) { 
+            error = GRBgetdblattr(model, GRB_DBL_ATTR_OBJVAL, &objval);
+            if (error) goto QUIT;
+            min[i] = -1*objval;
+          } else {
+            error = GRBwrite(model, "/tmp/model.ilp");
+            if (error) goto QUIT;
+            min[i] = 6667.;
+          }
+        }
   
   }
 
