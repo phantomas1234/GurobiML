@@ -1,3 +1,4 @@
+(* Beginning of Notebook Content *)
 Notebook[{
 
 Cell[CellGroupData[{
@@ -10,21 +11,10 @@ Cell[BoxData[
  CellChangeTimes->{{3.512830927593811*^9, 3.512830938906189*^9}, {
   3.5260662246554956`*^9, 3.526066224950016*^9}}],
 
-Cell[CellGroupData[{
-
 Cell[BoxData[
  RowBox[{"Names", "[", "\"\<GurobiML`GurobiML`*\>\"", "]"}]], "Input",
  CellChangeTimes->{{3.512837090195674*^9, 3.51283709572659*^9}, {
   3.512837220562833*^9, 3.5128372237051573`*^9}}],
-
-Cell[BoxData[
- RowBox[{"{", 
-  RowBox[{"\<\"GurobiSolve\"\>", ",", "\<\"GurobiSolveFromFile\"\>", 
-   ",", "\<\"GurobiSolveLowLevel\"\>", ",", "\<\"GurobiSolveMinimaMaxima\"\>",
-    ",", "\<\"GurobiSolveMinimaMaximaLowLevel\"\>", 
-   ",", "\<\"matrix2compressedSparseRow\"\>", ",", "\<\"matrix2sparse\"\>"}], 
-  "}"}]], "Output"]
-}, Open  ]],
 
 Cell[BoxData[
  RowBox[{
@@ -156,8 +146,6 @@ Cell[CellGroupData[{
 Cell["High-level GurobiSolve", "Subsubsection",
  CellChangeTimes->{{3.512828051598858*^9, 3.512828058990254*^9}}],
 
-Cell[CellGroupData[{
-
 Cell[BoxData[{
  RowBox[{
   RowBox[{"obj", "=", 
@@ -187,13 +175,6 @@ Cell[BoxData[{
       RowBox[{"\"\<Blub.lp\>\"", ",", "\"\<Text\>\""}], "]"}], "]"}], ";"}], 
    "*)"}]}]}], "Input"],
 
-Cell[BoxData[
- RowBox[{"{", 
-  RowBox[{"0.`", ",", "0.`", ",", "0.`", ",", "0.`"}], "}"}]], "Output"]
-}, Open  ]],
-
-Cell[CellGroupData[{
-
 Cell[BoxData[{
  RowBox[{
   RowBox[{"rhs", "=", 
@@ -210,13 +191,6 @@ Cell[BoxData[{
       RowBox[{"\"\<Blub.lp\>\"", ",", "\"\<Text\>\""}], "]"}], "]"}], ";"}], 
    "*)"}]}]}], "Input"],
 
-Cell[BoxData[
- RowBox[{"{", 
-  RowBox[{"0.`", ",", "0.`", ",", "0.`", ",", "0.`"}], "}"}]], "Output"]
-}, Open  ]],
-
-Cell[CellGroupData[{
-
 Cell[BoxData[{
  RowBox[{
   RowBox[{"obj", "=", 
@@ -229,17 +203,6 @@ Cell[BoxData[{
   ";"}], "\[IndentingNewLine]", 
  RowBox[{"matrix2sparse", "[", "obj", "]"}]}], "Input",
  CellChangeTimes->{{3.526827126933282*^9, 3.5268271277086477`*^9}}],
-
-Cell[BoxData[
- RowBox[{"{", 
-  RowBox[{
-   RowBox[{"{", 
-    RowBox[{"0", ",", "0", ",", "1"}], "}"}], ",", 
-   RowBox[{"{", 
-    RowBox[{"0", ",", "1", ",", "1"}], "}"}], ",", 
-   RowBox[{"{", 
-    RowBox[{"2", ",", "1", ",", "3"}], "}"}]}], "}"}]], "Output"]
-}, Open  ]],
 
 Cell[CellGroupData[{
 
@@ -281,18 +244,12 @@ Cell[BoxData[{
    "*)"}]}]}], "Input"],
 
 Cell[BoxData[
- RowBox[{"{", 
-  RowBox[{
-  "6.000000001643997`", ",", "3.0000000005685195`", ",", 
-   "1.4475613193175475`*^-10", ",", "0"}], "}"}]], "Output"],
-
-Cell[BoxData[
- RowBox[{"{", 
-  RowBox[{
-   RowBox[{"{", 
-    RowBox[{"0", ",", "0", ",", "0", ",", "0"}], "}"}], ",", 
-   RowBox[{"{", 
-    RowBox[{"6.`", ",", "3.`", ",", "0", ",", "0"}], "}"}]}], "}"}]], "Output"]
+ RowBox[{
+  StyleBox[
+   RowBox[{"GurobiSolve", "::", "lowlevelmessage"}], "MessageName"], ":", 
+  " ", "\<\"Gurobi interface returned the following status: \
+\[NoBreak]\\!\\(\\\"Error: could not create \
+environment\\\\n\\\"\\)\[NoBreak].\"\>"}]], "Message", "MSG"]
 }, Open  ]],
 
 Cell[CellGroupData[{
@@ -331,13 +288,6 @@ Cell[BoxData[{
     RowBox[{"\"\</tmp/Blub.lp\>\"", ",", "\"\<Text\>\""}], "]"}], "]"}], 
   ";"}]}], "Input"],
 
-Cell[BoxData[
- RowBox[{"{", 
-  RowBox[{
-  "6.000000001510918`", ",", "3.0000000005282748`", ",", 
-   "1.2886885501192976`*^-10", ",", "6.776130300051101`*^-11"}], 
-  "}"}]], "Output"],
-
 Cell[BoxData["\<\"Minimize\\n  C0 + 2 C1 + 3 C2 + 0.1 C3 + [ 4 C0 ^ 2 + 2 C0 \
 * C1 + 6 C1 ^ 2 ] / 2 \\nSubject To\\n R0: - C0 + 2 C1 + 3 C2 + C3 = 0\\n R1: \
 C0 - 3 C1 + C2 <= 2\\n R2: C1 - 3.5 C3 >= 3\\nBounds\\nEnd\"\>"], "Print"]
@@ -371,10 +321,6 @@ Cell[BoxData[{
     RowBox[{"\"\</tmp/Blub.lp\>\"", ",", "\"\<Text\>\""}], "]"}], "]"}], 
   ";"}]}], "Input"],
 
-Cell[BoxData[
- RowBox[{"{", 
-  RowBox[{"6.`", ",", "3.`", ",", "0.`", ",", "0.`"}], "}"}]], "Output"],
-
 Cell[BoxData["\<\"Minimize\\n  C0 + 2 C1 + 3 C2 + 0.1 C3\\nSubject To\\n R0: \
 - C0 + 2 C1 + 3 C2 + C3 = 0\\n R1: C0 - 3 C1 + C2 <= 2\\n R2: C1 - 3.5 C3 >= \
 3\\nBounds\\nEnd\"\>"], "Print"]
@@ -402,10 +348,6 @@ Cell[BoxData[{
    RowBox[{"Import", "[", 
     RowBox[{"\"\</tmp/Blub.lp\>\"", ",", "\"\<Text\>\""}], "]"}], "]"}], 
   ";"}]}], "Input"],
-
-Cell[BoxData[
- RowBox[{"{", 
-  RowBox[{"6.`", ",", "3.`", ",", "0.`", ",", "0.`"}], "}"}]], "Output"],
 
 Cell[BoxData["\<\"Minimize\\n  C0 + 2 C1 + 3 C2 + 0.1 C3\\nSubject To\\n R0: \
 - C0 + 2 C1 + 3 C2 + C3 = 0\\n R1: C0 - 3 C1 + C2 <= 2\\n R2: C1 - 3.5 C3 >= \
@@ -454,10 +396,6 @@ Cell[BoxData[{
     RowBox[{"\"\</tmp/Blub.lp\>\"", ",", "\"\<Text\>\""}], "]"}], "]"}], 
   ";"}]}], "Input"],
 
-Cell[BoxData[
- RowBox[{"{", 
-  RowBox[{"47.`", ",", "17.`", ",", "3.`", ",", "4.`"}], "}"}]], "Output"],
-
 Cell[BoxData["\<\"Minimize\\n  C0 + 2 C1 + 3 C2 + 0.1 C3\\nSubject To\\n R0: \
 - C0 + 2 C1 + 3 C2 + C3 = 0\\n R1: C0 - 3 C1 + C2 <= 2\\n R2: C1 - 3.5 C3 >= \
 3\\nBounds\\n C0 >= 1\\n C1 >= 2\\n C2 >= 3\\n C3 >= 4\\nGenerals\\n \
@@ -466,13 +404,10 @@ C0\\nSemi-continuous\\n C0\\nEnd\"\>"], "Print"],
 Cell[BoxData[
  RowBox[{
   StyleBox[
-   RowBox[{"GurobiSolve", "::", "lowlevelmessage"}], "MessageName"], 
-  RowBox[{
-  ":", " "}], "\<\"Gurobi interface returned the following status: \[NoBreak]\
-\\!\\(\\\"Model is infeasible\\\\n\\\"\\)\[NoBreak].\"\>"}]], "Message", \
-"MSG"],
-
-Cell[BoxData["$Aborted"], "Output"],
+   RowBox[{"GurobiSolve", "::", "lowlevelmessage"}], "MessageName"], ":", 
+  " ", "\<\"Gurobi interface returned the following status: \
+\[NoBreak]\\!\\(\\\"Model is infeasible\\\\n\\\"\\)\[NoBreak].\"\>"}]], \
+"Message", "MSG"],
 
 Cell[BoxData["\<\"Minimize\\n  C0 + 2 C1 + 3 C2 + 0.1 C3\\nSubject To\\n R0: \
 - C0 + 2 C1 + 3 C2 + C3 = 0\\n R1: C0 - 3 C1 + C2 = 2\\n R2: C1 - 3.5 C3 = \
@@ -799,8 +734,6 @@ Cell[CellGroupData[{
 Cell["Low-level access to GurobiSolveLowLevel", "Subsubsection",
  CellChangeTimes->{{3.512828066902892*^9, 3.512828078270741*^9}}],
 
-Cell[CellGroupData[{
-
 Cell[BoxData[{
  RowBox[{
   RowBox[{"obj", "=", 
@@ -864,30 +797,6 @@ Cell[BoxData[{
   "obj", ",", "lb", ",", "ub", ",", "cbeg", ",", " ", "cind", ",", " ", 
    RowBox[{"N", "@", "cval"}], ",", "rhs", ",", "senses", ",", 
    "\"\<NULL\>\""}], "]"}]}], "Input"],
-
-Cell[BoxData[
- RowBox[{"{", 
-  RowBox[{
-   RowBox[{"-", "39.333333333333336`"}], ",", 
-   RowBox[{"{", 
-    RowBox[{"50.`", ",", "39.333333333333336`", ",", "70.`", ",", "2.`"}], 
-    "}"}]}], "}"}]], "Output"],
-
-Cell[BoxData[
- RowBox[{"{", 
-  RowBox[{
-   RowBox[{"{", 
-    RowBox[{
-     RowBox[{"-", "50.`"}], ",", 
-     RowBox[{"-", "39.333333333333336`"}], ",", 
-     RowBox[{"-", "70.`"}], ",", 
-     RowBox[{"-", "11.238095238095237`"}]}], "}"}], ",", 
-   RowBox[{"{", 
-    RowBox[{"0.`", ",", "7.`", ",", "1.75`", ",", "2.`"}], "}"}]}], 
-  "}"}]], "Output"]
-}, Open  ]],
-
-Cell[CellGroupData[{
 
 Cell[BoxData[{
  RowBox[{
@@ -990,26 +899,6 @@ Cell[BoxData[{
      RowBox[{"Import", "[", 
       RowBox[{"\"\<Blub.lp\>\"", ",", "\"\<Text\>\""}], "]"}], "]"}], ";"}], 
    "*)"}]}]}], "Input"],
-
-Cell[BoxData["\<\"gurobi_mathlink.c: i686-apple-darwin10-gcc-4.2.1: \
--lgurobi46: linker input file unused because linking not \
-done\\nGurobiML.tm.c: i686-apple-darwin10-gcc-4.2.1: -lgurobi46: linker input \
-file unused because linking not done\"\>"], "Output"],
-
-Cell[BoxData[
- RowBox[{"{", 
-  RowBox[{"3.`", ",", 
-   RowBox[{"{", 
-    RowBox[{"1.5`", ",", "0.`", ",", "0.5`", ",", "0.`"}], "}"}]}], 
-  "}"}]], "Output"],
-
-Cell[BoxData[
- RowBox[{"{", 
-  RowBox[{"0.`", ",", 
-   RowBox[{"{", 
-    RowBox[{"0.`", ",", "0.`", ",", "0.`", ",", "0.`"}], "}"}]}], 
-  "}"}]], "Output"]
-}, Open  ]],
 
 Cell[CellGroupData[{
 
@@ -1777,10 +1666,11 @@ Cell[BoxData[
 }, Open  ]]
 }, Open  ]]
 },
-WindowSize->{1920, 1152},
+WindowSize->{1440, 852},
 WindowMargins->{{0, Automatic}, {Automatic, 0}},
 ShowSelection->True,
 FrontEndVersion->"8.0 for Mac OS X x86 (32-bit, 64-bit Kernel) (November 6, \
 2010)",
 StyleDefinitions->"Default.nb"
 ]
+(* End of Notebook Content *)
