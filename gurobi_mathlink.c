@@ -128,11 +128,11 @@ void solve(double *obj, long objlen, double *lb, long lblen, double *ub, long ub
   GRBenv   *env   = NULL;
   GRBmodel *model = NULL;
   int       error = 0;
-  double    sol[objlen];
+  double    *sol;
   int       optimstatus;
   double    objval;
   int       zero = 0;
-
+  sol = (double *) malloc(objlen * sizeof(double));
 
   /* Create environment */
 
@@ -270,6 +270,7 @@ QUIT:
   /* Free environment */
 
   GRBfreeenv(env);
+  free(sol);
 
 }
 
@@ -279,11 +280,17 @@ void calcMinMaxForVariables(double *obj, long objlen, double *lb, long lblen, do
   GRBenv   *env   = NULL;
   GRBmodel *model = NULL;
   int       error = 0;
-  double    sol[objlen];
+  double    *sol;
   int       optimstatus;
   double    objval;
   int       zero = 0;
-
+  int       numvars;
+  double newObj[10000];
+  double min[10000];
+  double max[10000];
+  int i;
+  int j;
+  sol = (double *) malloc(objlen * sizeof(double));
 
   /* Create environment */
 
@@ -349,17 +356,11 @@ void calcMinMaxForVariables(double *obj, long objlen, double *lb, long lblen, do
 
   // MLPutString(stdlink, "Success");
 
-  int       numvars;
   error = GRBgetintattr(model, "NumVars", &numvars);
   if (error) goto QUIT;
 
   
   /* Find minima and Maxima */
-  double newObj[10000];
-  double min[10000];
-  double max[10000];
-  int i;
-  int j;
   for(i = 0; i < objlen; ++i)
   {
     // Minimization
@@ -508,7 +509,7 @@ QUIT:
   /* Free environment */
 
   GRBfreeenv(env);
-
+  free(sol);
 }
 
 
