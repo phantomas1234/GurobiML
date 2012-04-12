@@ -4,3 +4,4 @@
 *.lp
 *.ilp
 *.mps
+build/
