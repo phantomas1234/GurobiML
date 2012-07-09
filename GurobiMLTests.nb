@@ -1,4 +1,3 @@
-(* Beginning of Notebook Content *)
 Notebook[{
 
 Cell[CellGroupData[{
@@ -11,10 +10,21 @@ Cell[BoxData[
  CellChangeTimes->{{3.512830927593811*^9, 3.512830938906189*^9}, {
   3.5260662246554956`*^9, 3.526066224950016*^9}}],
 
+Cell[CellGroupData[{
+
 Cell[BoxData[
  RowBox[{"Names", "[", "\"\<GurobiML`GurobiML`*\>\"", "]"}]], "Input",
  CellChangeTimes->{{3.512837090195674*^9, 3.51283709572659*^9}, {
   3.512837220562833*^9, 3.5128372237051573`*^9}}],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{"\<\"GurobiSolve\"\>", ",", "\<\"GurobiSolveFromFile\"\>", 
+   ",", "\<\"GurobiSolveLowLevel\"\>", ",", "\<\"GurobiSolveMinimaMaxima\"\>",
+    ",", "\<\"GurobiSolveMinimaMaximaLowLevel\"\>", 
+   ",", "\<\"matrix2compressedSparseRow\"\>", ",", "\<\"matrix2sparse\"\>"}], 
+  "}"}]], "Output"]
+}, Open  ]],
 
 Cell[BoxData[
  RowBox[{
@@ -146,6 +156,8 @@ Cell[CellGroupData[{
 Cell["High-level GurobiSolve", "Subsubsection",
  CellChangeTimes->{{3.512828051598858*^9, 3.512828058990254*^9}}],
 
+Cell[CellGroupData[{
+
 Cell[BoxData[{
  RowBox[{
   RowBox[{"obj", "=", 
@@ -175,6 +187,13 @@ Cell[BoxData[{
       RowBox[{"\"\<Blub.lp\>\"", ",", "\"\<Text\>\""}], "]"}], "]"}], ";"}], 
    "*)"}]}]}], "Input"],
 
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{"0.`", ",", "0.`", ",", "0.`", ",", "0.`"}], "}"}]], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
 Cell[BoxData[{
  RowBox[{
   RowBox[{"rhs", "=", 
@@ -191,6 +210,13 @@ Cell[BoxData[{
       RowBox[{"\"\<Blub.lp\>\"", ",", "\"\<Text\>\""}], "]"}], "]"}], ";"}], 
    "*)"}]}]}], "Input"],
 
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{"0.`", ",", "0.`", ",", "0.`", ",", "0.`"}], "}"}]], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
 Cell[BoxData[{
  RowBox[{
   RowBox[{"obj", "=", 
@@ -203,6 +229,17 @@ Cell[BoxData[{
   ";"}], "\[IndentingNewLine]", 
  RowBox[{"matrix2sparse", "[", "obj", "]"}]}], "Input",
  CellChangeTimes->{{3.526827126933282*^9, 3.5268271277086477`*^9}}],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{"0", ",", "0", ",", "1"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"0", ",", "1", ",", "1"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"2", ",", "1", ",", "3"}], "}"}]}], "}"}]], "Output"]
+}, Open  ]],
 
 Cell[CellGroupData[{
 
@@ -244,12 +281,18 @@ Cell[BoxData[{
    "*)"}]}]}], "Input"],
 
 Cell[BoxData[
- RowBox[{
-  StyleBox[
-   RowBox[{"GurobiSolve", "::", "lowlevelmessage"}], "MessageName"], ":", 
-  " ", "\<\"Gurobi interface returned the following status: \
-\[NoBreak]\\!\\(\\\"Error: could not create \
-environment\\\\n\\\"\\)\[NoBreak].\"\>"}]], "Message", "MSG"]
+ RowBox[{"{", 
+  RowBox[{
+  "6.000000001643997`", ",", "3.0000000005685195`", ",", 
+   "1.4475613193175475`*^-10", ",", "0"}], "}"}]], "Output"],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{"6.`", ",", "3.`", ",", "0", ",", "0"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"0", ",", "0", ",", "0", ",", "0"}], "}"}]}], "}"}]], "Output"]
 }, Open  ]],
 
 Cell[CellGroupData[{
@@ -288,6 +331,13 @@ Cell[BoxData[{
     RowBox[{"\"\</tmp/Blub.lp\>\"", ",", "\"\<Text\>\""}], "]"}], "]"}], 
   ";"}]}], "Input"],
 
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{
+  "6.000000001510918`", ",", "3.0000000005282748`", ",", 
+   "1.2886885501192976`*^-10", ",", "6.776130300051101`*^-11"}], 
+  "}"}]], "Output"],
+
 Cell[BoxData["\<\"Minimize\\n  C0 + 2 C1 + 3 C2 + 0.1 C3 + [ 4 C0 ^ 2 + 2 C0 \
 * C1 + 6 C1 ^ 2 ] / 2 \\nSubject To\\n R0: - C0 + 2 C1 + 3 C2 + C3 = 0\\n R1: \
 C0 - 3 C1 + C2 <= 2\\n R2: C1 - 3.5 C3 >= 3\\nBounds\\nEnd\"\>"], "Print"]
@@ -321,6 +371,10 @@ Cell[BoxData[{
     RowBox[{"\"\</tmp/Blub.lp\>\"", ",", "\"\<Text\>\""}], "]"}], "]"}], 
   ";"}]}], "Input"],
 
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{"6.`", ",", "3.`", ",", "0.`", ",", "0.`"}], "}"}]], "Output"],
+
 Cell[BoxData["\<\"Minimize\\n  C0 + 2 C1 + 3 C2 + 0.1 C3\\nSubject To\\n R0: \
 - C0 + 2 C1 + 3 C2 + C3 = 0\\n R1: C0 - 3 C1 + C2 <= 2\\n R2: C1 - 3.5 C3 >= \
 3\\nBounds\\nEnd\"\>"], "Print"]
@@ -349,70 +403,13 @@ Cell[BoxData[{
     RowBox[{"\"\</tmp/Blub.lp\>\"", ",", "\"\<Text\>\""}], "]"}], "]"}], 
   ";"}]}], "Input"],
 
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{"6.`", ",", "3.`", ",", "0.`", ",", "0.`"}], "}"}]], "Output"],
+
 Cell[BoxData["\<\"Minimize\\n  C0 + 2 C1 + 3 C2 + 0.1 C3\\nSubject To\\n R0: \
 - C0 + 2 C1 + 3 C2 + C3 = 0\\n R1: C0 - 3 C1 + C2 <= 2\\n R2: C1 - 3.5 C3 >= \
 3\\nBounds\\nEnd\"\>"], "Print"]
-}, Open  ]],
-
-Cell[CellGroupData[{
-
-Cell[BoxData[{
- RowBox[{
-  RowBox[{"rhs", "=", 
-   RowBox[{"{", 
-    RowBox[{
-     RowBox[{"{", 
-      RowBox[{"0.", ",", "0"}], "}"}], ",", 
-     RowBox[{"{", 
-      RowBox[{"2.", ",", 
-       RowBox[{"-", "1"}]}], "}"}], ",", 
-     RowBox[{"{", 
-      RowBox[{"3.", ",", "1"}], "}"}]}], "}"}]}], 
-  ";"}], "\[IndentingNewLine]", 
- RowBox[{
-  RowBox[{"l", "=", 
-   RowBox[{"{", 
-    RowBox[{"1.", ",", "2.", ",", "3.", ",", "4."}], "}"}]}], 
-  ";"}], "\[IndentingNewLine]", 
- RowBox[{"GurobiSolve", "[", 
-  RowBox[{"obj", ",", "constrMat", ",", "rhs", ",", "l"}], 
-  "]"}], "\[IndentingNewLine]", 
- RowBox[{
-  RowBox[{"Print", "[", 
-   RowBox[{"Import", "[", 
-    RowBox[{"\"\</tmp/Blub.lp\>\"", ",", "\"\<Text\>\""}], "]"}], "]"}], 
-  ";"}], "\[IndentingNewLine]", 
- RowBox[{
-  RowBox[{"rhs", "=", 
-   RowBox[{"{", 
-    RowBox[{"0.", ",", "2.", ",", "3."}], "}"}]}], 
-  ";"}], "\[IndentingNewLine]", 
- RowBox[{"GurobiSolve", "[", 
-  RowBox[{"obj", ",", "constrMat", ",", "rhs", ",", "l"}], 
-  "]"}], "\[IndentingNewLine]", 
- RowBox[{
-  RowBox[{"Print", "[", 
-   RowBox[{"Import", "[", 
-    RowBox[{"\"\</tmp/Blub.lp\>\"", ",", "\"\<Text\>\""}], "]"}], "]"}], 
-  ";"}]}], "Input"],
-
-Cell[BoxData["\<\"Minimize\\n  C0 + 2 C1 + 3 C2 + 0.1 C3\\nSubject To\\n R0: \
-- C0 + 2 C1 + 3 C2 + C3 = 0\\n R1: C0 - 3 C1 + C2 <= 2\\n R2: C1 - 3.5 C3 >= \
-3\\nBounds\\n C0 >= 1\\n C1 >= 2\\n C2 >= 3\\n C3 >= 4\\nGenerals\\n \
-C0\\nSemi-continuous\\n C0\\nEnd\"\>"], "Print"],
-
-Cell[BoxData[
- RowBox[{
-  StyleBox[
-   RowBox[{"GurobiSolve", "::", "lowlevelmessage"}], "MessageName"], ":", 
-  " ", "\<\"Gurobi interface returned the following status: \
-\[NoBreak]\\!\\(\\\"Model is infeasible\\\\n\\\"\\)\[NoBreak].\"\>"}]], \
-"Message", "MSG"],
-
-Cell[BoxData["\<\"Minimize\\n  C0 + 2 C1 + 3 C2 + 0.1 C3\\nSubject To\\n R0: \
-- C0 + 2 C1 + 3 C2 + C3 = 0\\n R1: C0 - 3 C1 + C2 = 2\\n R2: C1 - 3.5 C3 = \
-3\\nBounds\\n C0 >= 1\\n C1 >= 2\\n C2 >= 3\\n C3 >= 4\\nGenerals\\n \
-C0\\nSemi-continuous\\n C0\\nEnd\"\>"], "Print"]
 }, Open  ]],
 
 Cell[CellGroupData[{
@@ -459,43 +456,82 @@ Cell[BoxData[{
 
 Cell[BoxData[
  RowBox[{"{", 
-  RowBox[{"47.`", ",", "17.`", ",", "3.`", ",", "4.`"}], "}"}]], "Output",
- CellChangeTimes->{3.512763498139583*^9, 3.51282798237416*^9, 
-  3.512838316535761*^9, 3.526066676132348*^9, 3.526066711697261*^9, 
-  3.526819891789473*^9, 3.5268207220340652`*^9, 3.526826670730276*^9, 
-  3.5268287063925333`*^9, 3.526903810979706*^9}],
+  RowBox[{"47.`", ",", "17.`", ",", "3.`", ",", "4.`"}], "}"}]], "Output"],
 
 Cell[BoxData["\<\"Minimize\\n  C0 + 2 C1 + 3 C2 + 0.1 C3\\nSubject To\\n R0: \
 - C0 + 2 C1 + 3 C2 + C3 = 0\\n R1: C0 - 3 C1 + C2 <= 2\\n R2: C1 - 3.5 C3 >= \
-3\\nBounds\\n C0 >= 1\\n C1 >= 2\\n C2 >= 3\\n C3 >= 4\\nEnd\"\>"], "Print",
- CellChangeTimes->{3.512763498130432*^9, 3.512827982366891*^9, 
-  3.512838316543948*^9, 3.5260666761366863`*^9, 3.5260667117004232`*^9, 
-  3.5268198918239393`*^9, 3.5268207220695143`*^9, 3.5268266707481318`*^9, 
-  3.526828706394843*^9, 3.526903811013426*^9}],
+3\\nBounds\\n C0 >= 1\\n C1 >= 2\\n C2 >= 3\\n C3 >= 4\\nEnd\"\>"], "Print"],
 
 Cell[BoxData[
- RowBox[{
-  StyleBox[
-   RowBox[{"GurobiSolve", "::", "lowlevelmessage"}], "MessageName"], ":", 
-  " ", "\<\"Gurobi interface returned the following status: \
-\[NoBreak]\\!\\(\\\"Model is infeasible\\\\n\\\"\\)\[NoBreak].\"\>"}]], \
-"Message", "MSG",
- CellChangeTimes->{3.526820722072393*^9, 3.526826670750955*^9, 
-  3.526828706429595*^9, 3.5269038110159597`*^9}],
-
-Cell[BoxData["$Aborted"], "Output",
- CellChangeTimes->{3.512763498139583*^9, 3.51282798237416*^9, 
-  3.512838316535761*^9, 3.526066676132348*^9, 3.526066711697261*^9, 
-  3.526819891789473*^9, 3.5268207220340652`*^9, 3.526826670730276*^9, 
-  3.5268287063925333`*^9, 3.526903811017658*^9}],
+ RowBox[{"{", 
+  RowBox[{
+  "40.99999999999999`", ",", "13.999999999999998`", ",", "3.`", ",", "4.`"}], 
+  "}"}]], "Output"],
 
 Cell[BoxData["\<\"Minimize\\n  C0 + 2 C1 + 3 C2 + 0.1 C3\\nSubject To\\n R0: \
 - C0 + 2 C1 + 3 C2 + C3 = 0\\n R1: C0 - 3 C1 + C2 = 2\\n R2: C1 - 3.5 C3 = \
-3\\nBounds\\n C0 >= 1\\n C1 >= 2\\n C2 >= 3\\n C3 >= 4\\nEnd\"\>"], "Print",
- CellChangeTimes->{3.512763498130432*^9, 3.512827982366891*^9, 
-  3.512838316543948*^9, 3.5260666761366863`*^9, 3.5260667117004232`*^9, 
-  3.5268198918239393`*^9, 3.5268207220695143`*^9, 3.5268266707481318`*^9, 
-  3.526828706394843*^9, 3.526903811019676*^9}]
+3\\nBounds\\n C0 >= 1\\n C1 >= 2\\n C2 >= 3\\n C3 >= 4\\nEnd\"\>"], "Print"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"rhs", "=", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"0.", ",", "0"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"2.", ",", 
+       RowBox[{"-", "1"}]}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"3.", ",", "1"}], "}"}]}], "}"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"l", "=", 
+   RowBox[{"{", 
+    RowBox[{"1.", ",", "2.", ",", "3.", ",", "4."}], "}"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{"GurobiSolve", "[", 
+  RowBox[{"obj", ",", "constrMat", ",", "rhs", ",", "l"}], 
+  "]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{"Import", "[", 
+    RowBox[{"\"\</tmp/Blub.lp\>\"", ",", "\"\<Text\>\""}], "]"}], "]"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"rhs", "=", 
+   RowBox[{"{", 
+    RowBox[{"0.", ",", "2.", ",", "3."}], "}"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{"GurobiSolve", "[", 
+  RowBox[{"obj", ",", "constrMat", ",", "rhs", ",", "l"}], 
+  "]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{"Import", "[", 
+    RowBox[{"\"\</tmp/Blub.lp\>\"", ",", "\"\<Text\>\""}], "]"}], "]"}], 
+  ";"}]}], "Input"],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{"47.`", ",", "17.`", ",", "3.`", ",", "4.`"}], "}"}]], "Output"],
+
+Cell[BoxData["\<\"Minimize\\n  C0 + 2 C1 + 3 C2 + 0.1 C3\\nSubject To\\n R0: \
+- C0 + 2 C1 + 3 C2 + C3 = 0\\n R1: C0 - 3 C1 + C2 <= 2\\n R2: C1 - 3.5 C3 >= \
+3\\nBounds\\n C0 >= 1\\n C1 >= 2\\n C2 >= 3\\n C3 >= 4\\nEnd\"\>"], "Print"],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{
+  "40.99999999999999`", ",", "13.999999999999998`", ",", "3.`", ",", "4.`"}], 
+  "}"}]], "Output"],
+
+Cell[BoxData["\<\"Minimize\\n  C0 + 2 C1 + 3 C2 + 0.1 C3\\nSubject To\\n R0: \
+- C0 + 2 C1 + 3 C2 + C3 = 0\\n R1: C0 - 3 C1 + C2 = 2\\n R2: C1 - 3.5 C3 = \
+3\\nBounds\\n C0 >= 1\\n C1 >= 2\\n C2 >= 3\\n C3 >= 4\\nEnd\"\>"], "Print"]
 }, Open  ]],
 
 Cell[CellGroupData[{
@@ -1673,4 +1709,4 @@ FrontEndVersion->"8.0 for Mac OS X x86 (32-bit, 64-bit Kernel) (November 6, \
 2010)",
 StyleDefinitions->"Default.nb"
 ]
-(* End of Notebook Content *)
+

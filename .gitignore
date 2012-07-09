@@ -4,4 +4,6 @@
 *.lp
 *.ilp
 *.mps
-build/
+build*/
+GurobiML
+
