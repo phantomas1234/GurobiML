@@ -14,9 +14,9 @@ set (GUROBI_INCLUDE_DIR "/Library/gurobi501/mac64/include")
 include_directories(${Mathematica_INCLUDE_DIRS} ${GUROBI_INCLUDE_DIR})
 link_directories(${GUROBI_LIBS})
 
-Mathematica_MathLink_add_executable (GurobiML gurobi_mathlink.tm gurobi_mathlink.c)
-set_target_properties(GurobiML PROPERTIES FOLDER "MathLink")
-list (APPEND _Targets GurobiML)
+Mathematica_MathLink_add_executable (GurobiML.exe gurobi_mathlink.tm gurobi_mathlink.c)
+set_target_properties(GurobiML.exe PROPERTIES FOLDER "MathLink")
+list (APPEND _Targets GurobiML.exe)
 
 
 # export mprep header and trailer code for the current target platform
@@ -25,7 +25,9 @@ list (APPEND _Targets GurobiML)
     #SYSTEM_ID ${Mathematica_SYSTEM_ID})
 
 # fix MathLink shared library references under Mac OS X
-Mathematica_ABSOLUTIZE_LIBRARY_DEPENDENCIES(GurobiML)
+Mathematica_ABSOLUTIZE_LIBRARY_DEPENDENCIES(GurobiML.exe)
 
-target_link_libraries(GurobiML gurobi46)
-install (TARGETS GurobiML DESTINATION "${Mathematica_USERBASE_DIR}/Applications/")
+target_link_libraries(GurobiML.exe gurobi50)
+
+install (DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/GurobiML" DESTINATION "${Mathematica_USERBASE_DIR}/Applications/")
+install (TARGETS GurobiML.exe DESTINATION "${Mathematica_USERBASE_DIR}/Applications/GurobiML")

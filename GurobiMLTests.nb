@@ -6,9 +6,29 @@ Cell["GurobiML Tests", "Section",
    3.512826628973776*^9, {3.512830924299155*^9, 3.512830925552828*^9}}],
 
 Cell[BoxData[
- RowBox[{"Get", "[", "\"\<GurobiML`\>\"", "]"}]], "Input",
- CellChangeTimes->{{3.512830927593811*^9, 3.512830938906189*^9}, {
-  3.5260662246554956`*^9, 3.526066224950016*^9}}],
+ RowBox[{"Quit", "[", "]"}]], "Input"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{"SetDirectory", "[", 
+  RowBox[{"NotebookDirectory", "[", "]"}], "]"}], "\[IndentingNewLine]", 
+ RowBox[{"Needs", "[", "\"\<GurobiML`\>\"", "]"}]}], "Input"],
+
+Cell[BoxData["\<\"/Users/niko/work/Code/MathematicaRepo/GurobiML\"\>"], \
+"Output"],
+
+Cell[BoxData[
+ RowBox[{
+  StyleBox[
+   RowBox[{"LinkOpen", "::", "linke"}], "MessageName"], 
+  RowBox[{
+  ":", " "}], "\<\"\[NoBreak]\\!\\(\\\"Could not find MathLink executable\\\"\
+\\)\[NoBreak]. \\!\\(\\*ButtonBox[\\\"\[RightSkeleton]\\\", \
+ButtonStyle->\\\"Link\\\", ButtonFrame->None, \
+ButtonData:>\\\"paclet:ref/message/LinkOpen/linke\\\", ButtonNote -> \
+\\\"LinkOpen::linke\\\"]\\)\"\>"}]], "Message", "MSG"]
+}, Open  ]],
 
 Cell[CellGroupData[{
 

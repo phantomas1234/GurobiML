@@ -5,5 +5,4 @@
 *.ilp
 *.mps
 build*/
-GurobiML
 

@@ -19,7 +19,7 @@
 
 
 
-SetDirectory[FileNameDrop[FindFile["GurobiML`"],-2]];
+SetDirectory[StringReplace[FindFile["GurobiML`"],"Kernel/init.m"->""]];
 Uninstall[gurobiMLlink];
 gurobiMLlink=Install["GurobiML/GurobiML.exe"];
 ResetDirectory[];
