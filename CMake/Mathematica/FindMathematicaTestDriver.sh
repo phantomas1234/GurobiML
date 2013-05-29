@@ -1,10 +1,10 @@
 #!/bin/bash
 # FindMathematica test driver script for UNIX systems
 
-#logger $# "$@"
-#logger $LD_LIBRARY_PATH
-#logger $DYLD_FRAMEWORK_PATH
-#logger $DYLD_LIBRARY_PATH
+#logger -- $# "$@"
+#logger -- $LD_LIBRARY_PATH
+#logger -- $DYLD_FRAMEWORK_PATH
+#logger -- $DYLD_LIBRARY_PATH
 
 export TEST_NAME=$1
 export TEST_CONFIGURATION=$2
@@ -25,7 +25,7 @@ fi
 if [ "$OSTYPE" = "cygwin" ]
 then
 	# make sure that executable has the right format under Cygwin
-	export TEST_EXECUTABLE="`cygpath --unix \"$TEST_EXECUTABLE\"`"
+	export TEST_EXECUTABLE="`/usr/bin/cygpath --unix \"$TEST_EXECUTABLE\"`"
 fi
 
 if [ "$TEST_INPUT_OPTION" = "input" ]

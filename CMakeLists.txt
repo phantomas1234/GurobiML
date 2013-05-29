@@ -9,7 +9,14 @@ find_package(Mathematica)
 #     PATH_SUFFIXES "mac64" "win64" "win32")
 # message(STATUS "${GUROBI_INCLUDE_DIR}")
 
-set (GUROBI_INCLUDE_DIR "/Library/gurobi501/mac64/include")
+# find_path(GUROBI_INCLUDE_DIR 
+#           NAMES gurobi_c++.h
+#           PATHS "$ENV{GUROBI_HOME}/include"
+#                   "/Library/gurobi502/mac64/include"
+#                  "C:\\libs\\gurobi502\\include"
+#           )
+
+set (GUROBI_INCLUDE_DIR "/Library/gurobi550/mac64/include")
 
 include_directories(${Mathematica_INCLUDE_DIRS} ${GUROBI_INCLUDE_DIR})
 link_directories(${GUROBI_LIBS})
@@ -27,7 +34,7 @@ list (APPEND _Targets GurobiML.exe)
 # fix MathLink shared library references under Mac OS X
 Mathematica_ABSOLUTIZE_LIBRARY_DEPENDENCIES(GurobiML.exe)
 
-target_link_libraries(GurobiML.exe gurobi50)
+target_link_libraries(GurobiML.exe gurobi55)
 
 install (DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/GurobiML" DESTINATION "${Mathematica_USERBASE_DIR}/Applications/")
 install (TARGETS GurobiML.exe DESTINATION "${Mathematica_USERBASE_DIR}/Applications/GurobiML")
