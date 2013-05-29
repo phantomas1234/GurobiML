@@ -1,2 +1,6 @@
-BeginPackage["GurobiML`", {"GurobiML`GurobiML`"}]
+(* ::Package:: *)
+
+BeginPackage["GurobiML`"]
 EndPackage[]
+
+Get["GurobiML`GurobiML`"]

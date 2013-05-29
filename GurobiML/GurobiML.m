@@ -60,9 +60,35 @@ GurobiSolve::rhserror="Righthand sides `1` are wrongly specified.";
 GurobiSolve::bndserror="Variable bounds `1` are wrongly specified.";
 GurobiSolve::domerror="Problem with domain specification `1`.";
 GurobiSolve::lowlevelmessage="Gurobi interface returned the following status: `1`.";
-Options[GurobiSolve]={"Infinity"->1.*^10};
+Options[GurobiSolve]={"Infinity"->1.*^10,"GurobiParameters"->{},"Basis"->{},"MIPStart"->{}};
 GurobiSolve[c:({_?NumberQ..}|_?MatrixQ|{{_?NumberQ..},_?MatrixQ}),m_?MatrixQ,b:({_?NumberQ..}|{{_?NumberQ,(-1|-1.|0|0.|1|1.)}..}):{},l:({(_?NumberQ|-\[Infinity]|\[Infinity])..}|{{(_?NumberQ|-\[Infinity]|\[Infinity]),(_?NumberQ|-\[Infinity]|\[Infinity])}..}):{},
-dom:(Integers|Reals|{(Integers|Reals)..}):Reals,opts:OptionsPattern[]]:=Module[{procRhs,procDom,lb,ub,senses,cbeg,cind,cval,lClean},
+dom:(Integers|Reals|{(Integers|Reals)..}):Reals,opts:OptionsPattern[]]:=Module[{procRhs,procDom,lb,ub,senses,cbeg,cind,cval,lClean,param,basis,mst,result},
+
+If[MatchQ[OptionValue["GurobiParameters"],{_Rule..}],
+	param=OpenWrite[];
+	Close[param];
+	param=param[[1]]<>".prm";
+	Export[param,List@@@OptionValue["GurobiParameters"],"TSV"];,
+	param="";
+];
+
+If[MatchQ[OptionValue["Basis"],{_Rule..}],
+	basis=OpenWrite[];
+	Close[basis];
+	basis=basis[[1]]<>".bas";
+	Export[basis,List@@@OptionValue["Basis"],"TSV"];,
+	basis="";
+];
+
+If[MatchQ[OptionValue["MIPStart"],{(_Integer|Automatic)..}],
+	mst=OpenWrite[];
+	Close[mst];
+	mst=mst[[1]]<>".mst";
+	(*Print@ExportString[Select[Thread[{"C"<>ToString[#]&/@(Flatten[Position[dom,Integers]]-1),OptionValue["MIPStart"]}],#[[2]]=!=Automatic&],"TSV"];*)
+	Export[mst,Select[Thread[{"C"<>ToString[#]&/@(Flatten[Position[dom,Integers]]-1),OptionValue["MIPStart"]}],#[[2]]=!=Automatic&],"TSV"];,
+	mst="";
+];
+
 {cbeg,cind,cval}=matrix2compressedSparseRow[m];
 senses="";
 Piecewise[{
@@ -85,17 +111,19 @@ Piecewise[{
 {procDom=StringJoin[Sequence@@(dom/.{Integers->"I",Reals->"C"})],MatchQ[dom,{(Integers|Reals)..}]}
 },Message[GurobiSolve::domerror,dom]];
 (*GurobiML`GurobiML`GurobiSolveLowLevel[c,lb,ub,cbeg, cind, N@cval,procRhs,senses,procDom][[2]]*)
-If[MatchQ[#,_List],#[[2]],Message[GurobiSolve::lowlevelmessage,#];Abort[];]&@
+result=If[MatchQ[#,_List],#[[2]],Message[GurobiSolve::lowlevelmessage,#];Abort[];]&@
 Switch[c,
 _?MatrixQ,
-GurobiML`GurobiML`GurobiSolveLowLevel[Array[0&,Length[Transpose[m]]],lb,ub,cbeg, cind, N@cval,procRhs,senses,procDom,Sequence@@matrix2sparse[c]],
+GurobiML`GurobiML`GurobiSolveLowLevel[Array[0&,Length[Transpose[m]]],lb,ub,cbeg, cind, N@cval,procRhs,senses,procDom,Sequence@@matrix2sparse[c],param,basis,mst],
 {_?NumberQ..},
-GurobiML`GurobiML`GurobiSolveLowLevel[c,lb,ub,cbeg, cind, N@cval,procRhs,senses,procDom,(*qrow*){},(*qcol*){},(*qval*){}],
+GurobiML`GurobiML`GurobiSolveLowLevel[c,lb,ub,cbeg, cind, N@cval,procRhs,senses,procDom,(*qrow*){},(*qcol*){},(*qval*){},param,basis,mst],
 {{_?NumberQ..},_?MatrixQ},
-GurobiML`GurobiML`GurobiSolveLowLevel[c[[1]],lb,ub,cbeg, cind, N@cval,procRhs,senses,procDom,Sequence@@matrix2sparse[c[[2]]]],
+GurobiML`GurobiML`GurobiSolveLowLevel[c[[1]],lb,ub,cbeg, cind, N@cval,procRhs,senses,procDom,Sequence@@matrix2sparse[c[[2]]],param,basis,mst],
 _,
 Message[GurobiSolve::objerror,c];Abort[];
-]/.{-N@OptionValue["Infinity"]->-\[Infinity],N@OptionValue["Infinity"]->\[Infinity]}
+]/.{-N@OptionValue["Infinity"]->-\[Infinity],N@OptionValue["Infinity"]->\[Infinity]};
+
+result
 ];
 def:GurobiSolve[___]:=(Message[GurobiML::badargs,GurobiSolve,Defer@def];Abort[])
 Protect[GurobiSolve];

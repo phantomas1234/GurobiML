@@ -124,7 +124,7 @@ QUIT:
 void solve(double *obj, long objlen, double *lb, long lblen, double *ub, long ublen, 
           int *cbeg, long cbegLen, int *cind, long cindLen, double *cval, long cvalLen, double *rhs, 
           long rhsLen, char *senses, char *vtype, int *qrow, long qrowlen, int *qcol, long qcollen,
-          double *qval, long qvallen) {
+          double *qval, long qvallen, char *parampath, char *baspath, char *mstpath) {
   GRBenv   *env   = NULL;
   GRBmodel *model = NULL;
   int       error = 0;
@@ -145,6 +145,22 @@ void solve(double *obj, long objlen, double *lb, long lblen, double *ub, long ub
 
   error = GRBnewmodel(env, &model, "LPmodel", 0, NULL, NULL, NULL, NULL, NULL);
   if (error) goto QUIT;
+
+  if(strlen(parampath) != 0)
+  {
+      error = GRBread(model, parampath);
+      if (error || env == NULL) {
+        MLPutString(stdlink, (const char *) "Error: could not read parameters\n");
+      }
+  }
+
+  // if(strlen(baspath) != 0)
+  // {
+  //     error = GRBread(model, baspath);
+  //     if (error || env == NULL) {
+  //       MLPutString(stdlink, (const char *) "Error: could not read basis\n");
+  //     }
+  // }
 
 
   /* Add variables */
@@ -197,8 +213,18 @@ void solve(double *obj, long objlen, double *lb, long lblen, double *ub, long ub
   error = GRBupdatemodel(model);
   if (error) goto QUIT;
 
-  GRBwrite(model, "/tmp/Blub.lp");
-  if (error) goto QUIT;
+  if(strlen(mstpath) != 0)
+  {
+      error = GRBread(model, mstpath);
+      if (error) goto QUIT;
+      // if (error || env == NULL) {
+      //   MLPutString(stdlink, (const char *) "Error: could not read MIP start\n");
+      // }
+  }
+
+
+  // GRBwrite(model, "/tmp/Blub.lp");
+  // if (error) goto QUIT;
 
   // GRBwrite(model, "Blub.mps");
   // if (error) goto QUIT;
@@ -208,7 +234,7 @@ void solve(double *obj, long objlen, double *lb, long lblen, double *ub, long ub
 
   error = GRBoptimize(model);
   if (error) goto QUIT;
-
+  
   error = GRBgetintattr(model, GRB_INT_ATTR_STATUS, &optimstatus);
   if (error) goto QUIT;
 
@@ -221,7 +247,6 @@ void solve(double *obj, long objlen, double *lb, long lblen, double *ub, long ub
 
     error = GRBgetdblattrarray(model, GRB_DBL_ATTR_X, 0, objlen, sol);
       if (error) goto QUIT;    
-
 
     MLPutFunction(stdlink, "List", 2);
       MLPutReal(stdlink, objval);
