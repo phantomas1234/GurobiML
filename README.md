@@ -17,7 +17,9 @@ will return `{-5, 1}`.
 * `make`
 * `make install`
 
-Eventually one has to adapt the Gurobi part of [CMakeLists.txt](CMakeLists.txt) due to the current lack of a CMake Gurobi module.
+Eventually one has to adapt the Gurobi part of [CMakeLists.txt](CMakeLists.txt) due to the current lack of a CMake Gurobi module. Or one can do
+
+    export GUROBI_HOME=/path/to/gurobi # for example /Library/gurobi510/mac64 on a mac and Gurobi 5.10
 
 An OS X binary is provided [here](https://www.amazon.com/clouddrive/share?s=qQVcG8jAQAwrerrpq2ZXOY).
 
