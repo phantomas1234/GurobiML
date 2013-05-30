@@ -1,3 +1,5 @@
+# GurobiML
+
 GurobiML provides a MathLink interface to Gurobi's LP/MIP/QP solvers. It provides
 high and low entry points to the solvers' functionalities, for example,
 `GurobiSolve` is a high level function that mimics Mathematica's own
