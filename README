@@ -4,6 +4,8 @@ high and low entry points to the solvers' functionalities, for example,
 `LinearProgramming` function's argument signature.
 
 GurobiML is licensed under the "Modified BSD License". Details can be found in the LICENSE file in the top level directory.
+The CMAKE directory is not part of GurobiML.
+
 
 Reached milestones:
 
