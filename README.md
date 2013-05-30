@@ -19,6 +19,8 @@ will return `{-5, 1}`.
 
 Eventually one has to adapt the Gurobi part of [CMakeLists.txt](CMakeLists.txt) due to the current lack of a CMake Gurobi module.
 
+An OS X binary is provided [here](https://www.amazon.com/clouddrive/share?s=qQVcG8jAQAwrerrpq2ZXOY).
+
 #### Windows
 A binary is provided [here](https://www.amazon.com/clouddrive/share?s=DPqdTxbqQV0muWLJhNRlXw). Work on compilation support on Windows hosts is in progress.
 
