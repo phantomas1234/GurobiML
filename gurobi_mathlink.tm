@@ -1,3 +1,7 @@
+:: Copyright (c) 2013 Nikolaus Sonnenschein. All rights reserved.
+:: Use of this source code is governed by a BSD-style license that can
+:: be found in the LICENSE file.
+
 :Evaluate: BeginPackage["GurobiML`GurobiML`"]
 :Evaluate: GurobiSolveFromFile::usage = "GurobiSolveFromFile[path2file] solves optimization problem defined in file."
 :Evaluate: GurobiSolveLowLevel::usage = "GurobiSolveLowLevel[obj, lb, ub, cbeg, cind, rhs, senses, vtype] solves LP/MILP optimization problems. Should be accessed from Mathematica function GurobiSolve."

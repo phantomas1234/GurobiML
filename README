@@ -1,7 +1,9 @@
-GurobiML provides a MathLink interface to Gurobi's LP/MIP solvers. It provides
+GurobiML provides a MathLink interface to Gurobi's LP/MIP/QP solvers. It provides
 high and low entry points to the solvers' functionalities, for example,
 `GurobiSolve` is a high level function that mimics Mathematica's own
 `LinearProgramming` function's argument signature.
+
+GurobiML is licensed under the "Modified BSD License". Details can be found in the LICENSE file in the top level directory.
 
 Reached milestones:
 
