@@ -5,9 +5,8 @@ high and low entry points to the solvers' functionalities, for example,
 `GurobiSolve` is a high level function that mimics Mathematica's own
 `LinearProgramming` function's argument signature. For example,
 
-```
-GurobiSolve[{2, -3}, {{-1, -2}}, {{3, -1}}, {{-Infinity, 1},{-Infinity, 1}}]
-```
+    GurobiSolve[{2, -3}, {{-1, -2}}, {{3, -1}}, {{-Infinity, 1},{-Infinity, 1}}]
+
 will return `{-5, 1}`.
 
 ### Installation
@@ -24,7 +23,7 @@ Eventually one has to adapt the Gurobi part of [CMakeLists.txt](CMakeLists.txt) 
 A binary is provided [here](https://www.amazon.com/clouddrive/share?s=DPqdTxbqQV0muWLJhNRlXw). Work on compilation support on Windows hosts is in progress.
 
 ### Usage
-* Use either `Needs["GurobiML`"] or <<GurobiML` to load the package definitions.`
+* Use either ``Needs["GurobiML`"]`` or ``<<GurobiML` `` to load the package definitions.
 * Read the `LinearProgramming` [documentation](http://reference.wolfram.com/mathematica/ref/LinearProgramming.html) to understand how to use `GurobiSolve`.
 
 ### License
