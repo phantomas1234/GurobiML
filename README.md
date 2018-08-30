@@ -21,10 +21,10 @@ Eventually one has to adapt the Gurobi part of [CMakeLists.txt](CMakeLists.txt) 
 
     export GUROBI_HOME=/path/to/gurobi # for example /Library/gurobi510/mac64 on a mac and Gurobi 5.10
 
-An OS X binary is provided [here](https://www.amazon.com/clouddrive/share?s=qQVcG8jAQAwrerrpq2ZXOY).
+An OS X binary is provided [here](https://www.amazon.com/clouddrive/share/PgDVtVfuMrNeySw9Tnb3AyGCBjxRdowudEZcY9MR9gd).
 
 #### Windows
-A binary is provided [here](https://www.amazon.com/clouddrive/share?s=DPqdTxbqQV0muWLJhNRlXw). Work on compilation support on Windows hosts is in progress.
+A binary is provided [here](https://www.amazon.com/clouddrive/share/eKLNC7JrtUbATqAHlvUQHT9gKV2gNuyArYxhYIiIvNi). Work on compilation support on Windows hosts is in progress.
 
 ### Usage
 * Use either ``Needs["GurobiML`"]`` or ``<<GurobiML` `` to load the package definitions.
